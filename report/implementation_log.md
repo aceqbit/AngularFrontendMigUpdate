@@ -26,3 +26,16 @@
 - The project was successfully migrated to Angular 21.
 - The build is successful.
 - No major issues were encountered during the migration.
+
+## Angular 17 to 16 Rollback (2026-05-13)
+- Downgraded Angular packages from 17.x to 16.2.x in package metadata.
+- Aligned tooling for Angular 16:
+	- Switched test builder from `@angular/build:karma` to `@angular-devkit/build-angular:karma`.
+	- Changed TypeScript module resolution from `bundler` to `node`.
+	- Downgraded `zone.js` to 0.13.x and `typescript` to 5.1.x.
+- Performed clean reinstall using `rimraf node_modules package-lock.json` followed by `npm install`.
+- Initial test run failed in `data-grid.component.spec.ts` because standalone component was incorrectly placed in `declarations`.
+- Applied targeted spec fix by moving `DataGridComponent` to `imports` in TestBed setup.
+- Final validation results:
+	- `npm run build` succeeded (warning only: existing CSS budget overage in event-scheduler styles).
+	- `npx ng test --watch=false --browsers=ChromeHeadless` passed with 23/23 successful tests.

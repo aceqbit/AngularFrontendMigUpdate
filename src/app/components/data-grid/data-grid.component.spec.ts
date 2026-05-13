@@ -8,8 +8,7 @@ describe('DataGridComponent Stress Test', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataGridComponent ],
-      imports: [ FormsModule ]
+      imports: [DataGridComponent, FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DataGridComponent);
