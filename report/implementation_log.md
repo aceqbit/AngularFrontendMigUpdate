@@ -39,3 +39,7 @@
 - Final validation results:
 	- `npm run build` succeeded (warning only: existing CSS budget overage in event-scheduler styles).
 	- `npx ng test --watch=false --browsers=ChromeHeadless` passed with 23/23 successful tests.
+
+	## Checkpoint (2026-05-13)
+	- Committed final Angular 16 rollback and fixes. Commit: `8e92207`.';'
+	- Created and pushed tag `v16-stable` as a stable checkpoint.
