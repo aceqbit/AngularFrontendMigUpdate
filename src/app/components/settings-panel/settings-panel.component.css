@@ -46,6 +46,69 @@
 
 .content-header h2 { margin: 0; font-size: 1.2em; color: #1e293b; letter-spacing: 0.5px; }
 
+.tab-description {
+  margin: -10px 0 20px;
+  color: #64748b;
+}
+
+.tab-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.tab-card {
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.tab-card h3 {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.tab-card p {
+  margin: 0;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.tab-card.success { border-color: #bbf7d0; background: #f0fdf4; }
+.tab-card.warning { border-color: #fde68a; background: #fffbeb; }
+.tab-card.critical { border-color: #fecaca; background: #fef2f2; }
+.tab-card.accent { border-color: #bfdbfe; background: #eff6ff; }
+
+.tab-records {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.record-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.record-row:last-child {
+  border-bottom: none;
+}
+
+.record-label {
+  color: #64748b;
+}
+
+.record-value {
+  color: #0f172a;
+}
+
 .save-btn {
   background: #1e293b;
   color: white;
@@ -68,6 +131,13 @@
   align-items: center;
 }
 
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
 .setting-section label {
   display: block;
   margin-bottom: 10px;
@@ -80,6 +150,14 @@
   padding: 12px;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
+}
+
+.setting-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  resize: vertical;
 }
 
 .setting-section small { color: #94a3b8; font-size: 0.8em; margin-top: 5px; display: block; }
@@ -95,3 +173,13 @@
 .debug-dump h4 { margin-top: 0; color: #64748b; }
 
 .trace-line { font-family: monospace; font-size: 0.75em; opacity: 0.8; margin-top: 4px; }
+
+@media (max-width: 980px) {
+  .tab-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .record-row {
+    flex-direction: column;
+  }
+}

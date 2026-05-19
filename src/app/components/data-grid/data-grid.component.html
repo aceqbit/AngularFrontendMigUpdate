@@ -1,11 +1,8 @@
 <div class="grid-container">
   <div class="grid-controls">
-    <div class="search-box">
-      <input type="text" [(ngModel)]="filterText" placeholder="Filter 500+ records...">
-    </div>
     <div class="group-selector">
       <label>Group By:</label>
-      <select [(ngModel)]="groupBy">
+      <select [(ngModel)]="groupBy" (ngModelChange)="applyFilters()">
         <option value="department">Department</option>
         <option value="status">Status</option>
         <option value="role">Role</option>
@@ -32,10 +29,10 @@
       <div *ngFor="let group of getGroupKeys()" class="grid-group">
         <div class="group-header">
           <span class="group-toggle">▼</span>
-          {{ group | uppercase }} ({{ getGroupedRows()[group].length }})
+          {{ group | uppercase }} ({{ groupedRows[group].length }})
         </div>
 
-        <div *ngFor="let row of getGroupedRows()[group]" 
+        <div *ngFor="let row of groupedRows[group]" 
              class="grid-row" 
              [class.selected]="selectedRows.has(row.id)">
           

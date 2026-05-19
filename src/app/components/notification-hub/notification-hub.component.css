@@ -43,6 +43,8 @@
   border-bottom: 1px solid #f1f5f9;
   position: relative;
   transition: background 0.2s;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .notification-item:hover { background: #f8fafc; }
@@ -61,6 +63,10 @@
 .info .type-indicator { background: #3b82f6; }
 
 .content { flex: 1; }
+
+.select-box {
+  margin-top: 4px;
+}
 
 .item-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
 .item-header strong { font-size: 0.9em; color: #1e293b; }

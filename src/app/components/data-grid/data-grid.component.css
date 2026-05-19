@@ -14,15 +14,21 @@
   background: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
   display: flex;
+  justify-content: space-between;
   gap: 20px;
   align-items: center;
 }
 
-.search-box input {
-  padding: 8px 15px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  width: 300px;
+.group-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .export-btn {

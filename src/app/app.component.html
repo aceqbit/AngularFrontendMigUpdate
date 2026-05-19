@@ -14,12 +14,6 @@
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="load-indicator">
-        <label>DOM WEIGHT</label>
-        <div class="bar-track">
-          <div class="bar-fill" style="width: 85%"></div>
-        </div>
-      </div>
     </div>
   </aside>
 
@@ -65,10 +59,6 @@
       <app-advanced-form-stepper></app-advanced-form-stepper>
     </section>
 
-    <!-- TREE SECTION -->
-    <section [hidden]="activeSection !== 'tree'">
-      <app-tree-view-large></app-tree-view-large>
-    </section>
 
     <!-- NOTES SECTION -->
     <section [hidden]="activeSection !== 'notes'">
@@ -80,10 +70,6 @@
       <app-notification-hub></app-notification-hub>
     </section>
 
-    <!-- MONITOR SECTION -->
-    <section [hidden]="activeSection !== 'monitor'">
-      <app-resource-monitor></app-resource-monitor>
-    </section>
 
     <!-- SETTINGS SECTION -->
     <section [hidden]="activeSection !== 'settings'">

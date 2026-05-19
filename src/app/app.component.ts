@@ -10,7 +10,6 @@ import { AdvancedFormStepperComponent } from './components/advanced-form-stepper
 import { TreeViewLargeComponent } from './components/tree-view-large/tree-view-large.component';
 import { StickyNotesComponent } from './components/sticky-notes/sticky-notes.component';
 import { NotificationHubComponent } from './components/notification-hub/notification-hub.component';
-import { ResourceMonitorComponent } from './components/resource-monitor/resource-monitor.component';
 import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
 import { DashboardWidgetsComponent } from './components/dashboard-widgets/dashboard-widgets.component';
 import { DateRangePickerComponent } from './components/date-range-picker/date-range-picker.component';
@@ -34,7 +33,6 @@ import { AutoCompleteComplexComponent } from './components/autocomplete-complex/
     TreeViewLargeComponent,
     StickyNotesComponent,
     NotificationHubComponent,
-    ResourceMonitorComponent,
     SettingsPanelComponent,
   ],
   templateUrl: './app.component.html',
@@ -50,11 +48,9 @@ export class AppComponent {
     { id: 'scheduler', label: 'Event Scheduler', icon: '⏱️' },
     { id: 'grid', label: 'Advanced Data Grid', icon: '🔠' },
     { id: 'explorer', label: 'File Explorer', icon: '📁' },
-    { id: 'stepper', label: 'Provisioning Wizard', icon: '⚡' },
-    { id: 'tree', label: 'Taxonomy Tree', icon: '🌳' },
+    { id: 'stepper', label: 'Deployment Wizard', icon: '⚡' },
     { id: 'notes', label: 'Sticky Board', icon: '📌' },
     { id: 'notifications', label: 'Alert Hub', icon: '🔔' },
-    { id: 'monitor', label: 'Resource Monitor', icon: '💻' },
     { id: 'settings', label: 'System Settings', icon: '⚙️' },
   ];
 

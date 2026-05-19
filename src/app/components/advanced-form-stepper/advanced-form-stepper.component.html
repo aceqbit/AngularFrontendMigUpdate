@@ -1,9 +1,9 @@
 <div class="stepper-container">
+  <div class="stepper-title">Deployment Setup Wizard</div>
   <div class="stepper-header">
     <div *ngFor="let step of steps" class="step-item" [class]="getStepStatusClass(step.id)">
       <div class="step-circle">{{ step.id + 1 }}</div>
       <span class="step-label">{{ step.label }}</span>
-      <div class="step-line" *ngIf="step.id < steps.length - 1"></div>
     </div>
   </div>
 
@@ -79,4 +79,6 @@
     <button (click)="nextStep()" *ngIf="currentStep < steps.length - 1" class="btn-primary">Continue</button>
     <button (click)="submitForm()" *ngIf="currentStep === steps.length - 1" class="btn-success">Provision Resource</button>
   </div>
+
+  <div class="transition-line" [style.width.%]="(currentStep / (steps.length -1)) * 100"></div>
 </div>

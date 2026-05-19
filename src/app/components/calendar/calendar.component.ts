@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SharedDataService, SharedCalendarEvent } from '../../shared-data.service';
 
 interface CalendarDay {
   date: Date;
   isToday: boolean;
   isCurrentMonth: boolean;
-  events: any[];
+  events: SharedCalendarEvent[];
   holiday?: string;
   lunarPhase?: string;
   weather?: { temp: number; icon: string };
@@ -15,7 +17,7 @@ interface CalendarDay {
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -23,12 +25,27 @@ export class CalendarComponent implements OnInit {
   currentDate = new Date();
   days: CalendarDay[] = [];
   weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  calendarEvents: SharedCalendarEvent[] = [];
+  selectedDate = new Date();
+  editingEventId: number | null = null;
+  eventDraft = {
+    title: '',
+    details: '',
+    startTime: '09:00',
+    endTime: '10:00',
+    priority: 'medium' as 'low' | 'medium' | 'high'
+  };
   
   lunarPhases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
 
-  constructor() { }
+  constructor(private sharedData: SharedDataService) { }
 
   ngOnInit() {
+    this.sharedData.calendarEvents$.subscribe(events => {
+      this.calendarEvents = events;
+      this.generateCalendar();
+    });
+    this.selectedDate = new Date(this.currentDate);
     this.generateCalendar();
   }
 
@@ -69,7 +86,7 @@ export class CalendarComponent implements OnInit {
       date,
       isToday: date.toDateString() === today.toDateString(),
       isCurrentMonth,
-      events: this.getMockEvents(date),
+      events: this.getEventsForDate(date),
       holiday: d % 10 === 0 ? `Holiday Type ${d}` : undefined,
       lunarPhase: this.lunarPhases[d % 8],
       weather: { temp: 20 + (d % 15), icon: d % 3 === 0 ? '☀️' : (d % 3 === 1 ? '☁️' : '🌧️') },
@@ -77,13 +94,69 @@ export class CalendarComponent implements OnInit {
     };
   }
 
-  getMockEvents(date: Date): any[] {
-    const events = [];
-    const d = date.getDate();
-    if (d % 5 === 0) events.push({ title: 'Critical Review', color: '#ea4335' });
-    if (d % 3 === 0) events.push({ title: 'Deployment Slot', color: '#34a853' });
-    if (d % 7 === 0) events.push({ title: 'System Maintenance', color: '#fbbc04' });
-    return events;
+  getEventsForDate(date: Date): SharedCalendarEvent[] {
+    const key = this.getDateKey(date);
+    return this.calendarEvents
+      .filter(event => event.date.startsWith(key))
+      .sort((left, right) => {
+        const priorityDiff = this.getPriorityWeight(right.priority) - this.getPriorityWeight(left.priority);
+        if (priorityDiff !== 0) {
+          return priorityDiff;
+        }
+        return (left.startTime ?? '').localeCompare(right.startTime ?? '');
+      });
+  }
+
+  selectDate(date: Date) {
+    this.selectedDate = date;
+    this.editingEventId = null;
+    this.eventDraft = { title: '', details: '', startTime: '09:00', endTime: '10:00', priority: 'medium' };
+  }
+
+  startEdit(event: SharedCalendarEvent) {
+    this.selectedDate = new Date(event.date);
+    this.editingEventId = event.id;
+    this.eventDraft = {
+      title: event.title,
+      details: event.details,
+      startTime: event.startTime ?? '09:00',
+      endTime: event.endTime ?? '10:00',
+      priority: event.priority ?? 'medium'
+    };
+  }
+
+  saveEvent() {
+    if (!this.eventDraft.title.trim()) {
+      return;
+    }
+
+    const event = this.sharedData.createDayEvent({
+      id: this.editingEventId ?? Date.now(),
+      title: this.eventDraft.title,
+      details: this.eventDraft.details,
+      date: this.selectedDate,
+      source: 'manual',
+      editable: true,
+      startTime: this.eventDraft.startTime,
+      endTime: this.eventDraft.endTime,
+      priority: this.eventDraft.priority
+    });
+
+    this.sharedData.saveCalendarEvent(event);
+    this.editingEventId = null;
+    this.eventDraft = { title: '', details: '', startTime: '09:00', endTime: '10:00', priority: 'medium' };
+  }
+
+  removeEvent(id: number) {
+    this.sharedData.deleteCalendarEvent(id);
+    if (this.editingEventId === id) {
+      this.editingEventId = null;
+      this.eventDraft = { title: '', details: '', startTime: '09:00', endTime: '10:00', priority: 'medium' };
+    }
+  }
+
+  getSelectedDayEvents(): SharedCalendarEvent[] {
+    return this.getEventsForDate(this.selectedDate);
   }
 
   prevMonth() {
@@ -98,5 +171,15 @@ export class CalendarComponent implements OnInit {
 
   getMonthName(): string {
     return this.currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+  }
+
+  private getDateKey(date: Date): string {
+    return date.toISOString().slice(0, 10);
+  }
+
+  private getPriorityWeight(priority?: 'low' | 'medium' | 'high'): number {
+    if (priority === 'high') return 3;
+    if (priority === 'medium') return 2;
+    return 1;
   }
 }

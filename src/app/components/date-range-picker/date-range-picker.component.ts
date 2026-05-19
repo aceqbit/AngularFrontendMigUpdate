@@ -1,6 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+interface MonthDay {
+  date: Date | null;
+  label: string;
+  inMonth: boolean;
+}
+
+interface MonthView {
+  title: string;
+  days: MonthDay[];
+}
+
 @Component({
   selector: 'app-date-range-picker',
   standalone: true,
@@ -22,7 +33,7 @@ export class DateRangePickerComponent implements OnInit {
     { label: 'Last Month', type: 'lastMonth' }
   ];
 
-  calendarMonths: Date[] = [];
+  calendarMonths: MonthView[] = [];
 
   constructor() {
     this.initCalendars();
@@ -32,10 +43,7 @@ export class DateRangePickerComponent implements OnInit {
 
   initCalendars() {
     const today = new Date();
-    this.calendarMonths = [
-      new Date(today.getFullYear(), today.getMonth(), 1),
-      new Date(today.getFullYear(), today.getMonth() + 1, 1)
-    ];
+    this.calendarMonths = [0, 1].map(offset => this.buildMonthView(today.getFullYear(), today.getMonth() + offset));
   }
 
   selectPreset(preset: any) {
@@ -44,7 +52,7 @@ export class DateRangePickerComponent implements OnInit {
       this.startDate = new Date(today.getFullYear(), today.getMonth(), 1);
       this.endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     } else {
-      const start = new Date();
+      const start = new Date(today);
       start.setDate(today.getDate() + preset.days);
       this.startDate = start;
       this.endDate = today;
@@ -73,5 +81,56 @@ export class DateRangePickerComponent implements OnInit {
   isSelectionEdge(date: Date): boolean {
     return (this.startDate?.toDateString() === date.toDateString()) || 
            (this.endDate?.toDateString() === date.toDateString());
+  }
+
+  isInHoverRange(date: Date): boolean {
+    if (!this.startDate || this.endDate || !this.hoverDate) return false;
+    const lower = Math.min(this.startDate.getTime(), this.hoverDate.getTime());
+    const upper = Math.max(this.startDate.getTime(), this.hoverDate.getTime());
+    const time = date.getTime();
+    return time >= lower && time <= upper;
+  }
+
+  setHoverDate(date: Date | null) {
+    this.hoverDate = date;
+  }
+
+  clearRange() {
+    this.startDate = null;
+    this.endDate = null;
+    this.hoverDate = null;
+  }
+
+  applyRange() {
+    if (!this.startDate || !this.endDate) {
+      this.endDate = this.startDate;
+    }
+  }
+
+  private buildMonthView(year: number, month: number): MonthView {
+    const firstOfMonth = new Date(year, month, 1);
+    const startDay = firstOfMonth.getDay();
+    const days: MonthDay[] = [];
+
+    for (let i = startDay - 1; i >= 0; i--) {
+      const date = new Date(year, month, -i);
+      days.push({ date, label: `${date.getDate()}`, inMonth: false });
+    }
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      days.push({ date, label: `${day}`, inMonth: true });
+    }
+
+    while (days.length % 7 !== 0) {
+      const nextDate = new Date(year, month, days.length - startDay + 1);
+      days.push({ date: nextDate, label: `${nextDate.getDate()}`, inMonth: false });
+    }
+
+    return {
+      title: firstOfMonth.toLocaleString('default', { month: 'long', year: 'numeric' }),
+      days
+    };
   }
 }

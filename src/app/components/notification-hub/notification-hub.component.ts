@@ -20,6 +20,8 @@ interface Notification {
 })
 export class NotificationHubComponent implements OnInit {
   notifications: Notification[] = [];
+  archivedNotifications: Notification[] = [];
+  selectedIds = new Set<number>();
   
   constructor() { }
 
@@ -48,8 +50,43 @@ export class NotificationHubComponent implements OnInit {
     this.notifications.forEach(n => n.isRead = true);
   }
 
+  unmarkAllRead() {
+    this.notifications.forEach(n => n.isRead = false);
+  }
+
+  toggleSelected(id: number) {
+    if (this.selectedIds.has(id)) {
+      this.selectedIds.delete(id);
+    } else {
+      this.selectedIds.add(id);
+    }
+  }
+
+  markSelectedRead() {
+    this.notifications.forEach(n => {
+      if (this.selectedIds.has(n.id)) {
+        n.isRead = true;
+      }
+    });
+  }
+
+  markSelectedUnread() {
+    this.notifications.forEach(n => {
+      if (this.selectedIds.has(n.id)) {
+        n.isRead = false;
+      }
+    });
+  }
+
   clearAll() {
+    this.archivedNotifications = [...this.notifications, ...this.archivedNotifications];
     this.notifications = [];
+    this.selectedIds.clear();
+  }
+
+  restoreArchived() {
+    this.notifications = [...this.archivedNotifications, ...this.notifications];
+    this.archivedNotifications = [];
   }
 
   getUnreadCount() {

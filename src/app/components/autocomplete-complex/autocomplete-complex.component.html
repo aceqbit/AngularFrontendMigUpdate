@@ -16,7 +16,7 @@
     <div *ngFor="let category of getGroupKeys()" class="category-group">
       <div class="category-header">{{ category }} ({{ groupedResults[category].length }})</div>
       
-      <div *ngFor="let item of groupedResults[category]" class="result-item">
+      <div *ngFor="let item of groupedResults[category]" class="result-item" (click)="selectResult(item)">
         <img [src]="item.image" class="item-thumb">
         <div class="item-info">
           <div class="item-title" [innerHTML]="highlightMatch(item.title)"></div>

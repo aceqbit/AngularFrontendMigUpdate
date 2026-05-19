@@ -6,7 +6,11 @@
     </div>
     <div class="actions">
       <button (click)="markAllRead()">Mark All Read</button>
+      <button (click)="unmarkAllRead()">Unmark All as Read</button>
+      <button (click)="markSelectedRead()">Mark Selected Read</button>
+      <button (click)="markSelectedUnread()">Mark Selected Unread</button>
       <button (click)="clearAll()" class="danger">Purge Logs</button>
+      <button (click)="restoreArchived()">Unpurge Logs</button>
     </div>
   </div>
 
@@ -15,6 +19,7 @@
          class="notification-item" 
          [class.unread]="!n.isRead"
          [class]="n.type">
+      <input type="checkbox" class="select-box" [checked]="selectedIds.has(n.id)" (change)="toggleSelected(n.id)">
       
       <div class="type-indicator"></div>
       

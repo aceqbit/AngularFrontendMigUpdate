@@ -1,6 +1,6 @@
-<div class="board" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp()">
+<div class="board">
   <div class="board-header">
-    <h1>Heavy Sticky Board</h1>
+    <h1>Sticky Board</h1>
     <button class="add-btn" (click)="addNote()">+ Add New Note</button>
     <div class="stats">
       <span>Total Notes: {{notes.length}}</span>
@@ -8,47 +8,167 @@
     </div>
   </div>
 
-  <div class="notes-container">
-    <div *ngFor="let note of notes; trackBy: trackByNoteId" 
-         class="note" 
-         [style.left.px]="note.x" 
-         [style.top.px]="note.y" 
-         [style.background-color]="note.color"
-         [class.pinned]="note.isPinned"
-         (mousedown)="onMouseDown($event, note)">
-      
-      <div class="note-header">
-        <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
-        <div class="actions">
-          <button (click)="togglePin(note)" [title]="note.isPinned ? 'Unpin' : 'Pin'">
-            <i class="pin-icon">{{ note.isPinned ? '📍' : '📌' }}</i>
-          </button>
-          <button (click)="changeColor(note)" title="Change Color">🎨</button>
-          <button (click)="deleteNote(note.id)" title="Delete">❌</button>
+  <div class="composer-panel">
+    <input [(ngModel)]="composer.title" class="composer-title" placeholder="Note title">
+    <textarea [(ngModel)]="composer.content" class="composer-content" placeholder="Quick note, reminder, or file-backed task"></textarea>
+    <div class="composer-row">
+      <label>
+        Priority
+        <select [(ngModel)]="composer.priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </label>
+      <label>
+        Upload files
+        <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleComposerFiles($event)">
+      </label>
+    </div>
+    <div class="composer-files" *ngIf="composer.attachments.length">
+      <span *ngFor="let file of composer.attachments">{{ file }}</span>
+    </div>
+  </div>
+
+  <div class="notes-columns">
+    <div class="notes-column">
+      <h2>High Priority</h2>
+      <div *ngFor="let note of highPriorityNotes; trackBy: trackByNoteId" 
+           class="note" 
+           [style.background-color]="note.color"
+           [class.pinned]="note.isPinned">
+        
+        <div class="note-header">
+          <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
+          <div class="actions">
+            <select class="priority-select" [(ngModel)]="note.priority" (change)="moveNoteToPriority(note)">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <button (click)="togglePin(note)" [title]="note.isPinned ? 'Unpin' : 'Pin'">
+              <i class="pin-icon">{{ note.isPinned ? '📍' : '📌' }}</i>
+            </button>
+            <button (click)="changeColor(note)" title="Change Color">🎨</button>
+            <button (click)="deleteNote(note.id)" title="Delete">❌</button>
+          </div>
+        </div>
+
+        <div class="note-body">
+          <textarea [value]="note.content" 
+                    (input)="updateNoteContent(note, $event)"
+                    placeholder="Type something heavy..."></textarea>
+        </div>
+
+        <div class="note-footer">
+          <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
+          <div class="tags">
+            <span *ngFor="let tag of note.tags" class="tag">{{tag}}</span>
+          </div>
+          <label class="note-upload">
+            Add attachment
+            <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleNoteFiles(note, $event)">
+          </label>
+          <div class="note-files" *ngIf="note.attachments.length">
+            <span *ngFor="let file of note.attachments">{{ file }}</span>
+          </div>
+          <div class="priority-indicator" [class]="note.priority">
+            {{note.priority | uppercase}}
+          </div>
         </div>
       </div>
-
-      <div class="note-body">
-        <textarea [value]="note.content" 
-                  (input)="updateNoteContent(note, $event)"
-                  placeholder="Type something heavy..."></textarea>
-      </div>
-
-      <div class="note-footer">
-        <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
-        <div class="tags">
-          <span *ngFor="let tag of note.tags" class="tag">{{tag}}</span>
+    </div>
+    <div class="notes-column">
+      <h2>Medium Priority</h2>
+      <div *ngFor="let note of mediumPriorityNotes; trackBy: trackByNoteId" 
+           class="note" 
+           [style.background-color]="note.color"
+           [class.pinned]="note.isPinned">
+        
+        <div class="note-header">
+          <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
+          <div class="actions">
+            <select class="priority-select" [(ngModel)]="note.priority" (change)="moveNoteToPriority(note)">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <button (click)="togglePin(note)" [title]="note.isPinned ? 'Unpin' : 'Pin'">
+              <i class="pin-icon">{{ note.isPinned ? '📍' : '📌' }}</i>
+            </button>
+            <button (click)="changeColor(note)" title="Change Color">🎨</button>
+            <button (click)="deleteNote(note.id)" title="Delete">❌</button>
+          </div>
         </div>
-        <div class="priority-indicator" [class]="note.priority">
-          {{note.priority | uppercase}}
+
+        <div class="note-body">
+          <textarea [value]="note.content" 
+                    (input)="updateNoteContent(note, $event)"
+                    placeholder="Type something heavy..."></textarea>
+        </div>
+
+        <div class="note-footer">
+          <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
+          <div class="tags">
+            <span *ngFor="let tag of note.tags" class="tag">{{tag}}</span>
+          </div>
+          <label class="note-upload">
+            Add attachment
+            <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleNoteFiles(note, $event)">
+          </label>
+          <div class="note-files" *ngIf="note.attachments.length">
+            <span *ngFor="let file of note.attachments">{{ file }}</span>
+          </div>
+          <div class="priority-indicator" [class]="note.priority">
+            {{note.priority | uppercase}}
+          </div>
         </div>
       </div>
+    </div>
+    <div class="notes-column">
+      <h2>Low Priority</h2>
+      <div *ngFor="let note of lowPriorityNotes; trackBy: trackByNoteId" 
+           class="note" 
+           [style.background-color]="note.color"
+           [class.pinned]="note.isPinned">
+        
+        <div class="note-header">
+          <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
+          <div class="actions">
+            <select class="priority-select" [(ngModel)]="note.priority" (change)="moveNoteToPriority(note)">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <button (click)="togglePin(note)" [title]="note.isPinned ? 'Unpin' : 'Pin'">
+              <i class="pin-icon">{{ note.isPinned ? '📍' : '📌' }}</i>
+            </button>
+            <button (click)="changeColor(note)" title="Change Color">🎨</button>
+            <button (click)="deleteNote(note.id)" title="Delete">❌</button>
+          </div>
+        </div>
 
-      <!-- Complex nested elements to increase DOM weight -->
-      <div class="heavy-decor">
-        <div class="decor-line"></div>
-        <div class="decor-dots">
-          <span></span><span></span><span></span>
+        <div class="note-body">
+          <textarea [value]="note.content" 
+                    (input)="updateNoteContent(note, $event)"
+                    placeholder="Type something heavy..."></textarea>
+        </div>
+
+        <div class="note-footer">
+          <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
+          <div class="tags">
+            <span *ngFor="let tag of note.tags" class="tag">{{tag}}</span>
+          </div>
+          <label class="note-upload">
+            Add attachment
+            <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleNoteFiles(note, $event)">
+          </label>
+          <div class="note-files" *ngIf="note.attachments.length">
+            <span *ngFor="let file of note.attachments">{{ file }}</span>
+          </div>
+          <div class="priority-indicator" [class]="note.priority">
+            {{note.priority | uppercase}}
+          </div>
         </div>
       </div>
     </div>

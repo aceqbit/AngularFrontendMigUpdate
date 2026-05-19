@@ -55,6 +55,19 @@ export class TreeViewLargeComponent implements OnInit {
     }
   }
 
+  expandAll() {
+    this.setExpandedState(this.treeData, true);
+  }
+
+  private setExpandedState(nodes: TreeNode[], expanded: boolean) {
+    nodes.forEach(node => {
+      node.expanded = expanded;
+      if (node.children) {
+        this.setExpandedState(node.children, expanded);
+      }
+    });
+  }
+
   checkAllChildren(children: TreeNode[], checked: boolean) {
     children.forEach(child => {
       child.checked = checked;

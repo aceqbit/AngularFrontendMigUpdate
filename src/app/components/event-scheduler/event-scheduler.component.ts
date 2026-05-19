@@ -1,112 +1,284 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Resource {
-  id: string;
-  name: string;
-  type: 'room' | 'staff' | 'equipment';
-  availability: boolean;
-  color: string;
-}
+import { FormsModule } from '@angular/forms';
+import { SharedDataService, SharedCalendarEvent } from '../../shared-data.service';
 
 interface ScheduledEvent {
   id: number;
   title: string;
-  start: Date;
-  end: Date;
-  resourceId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
   status: 'confirmed' | 'pending' | 'cancelled';
   description: string;
-  attendees: string[];
+  editable: boolean;
 }
 
 @Component({
   selector: 'app-event-scheduler',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './event-scheduler.component.html',
   styleUrls: ['./event-scheduler.component.css']
 })
 export class EventSchedulerComponent implements OnInit {
-  resources: Resource[] = [];
   events: ScheduledEvent[] = [];
   hours = Array.from({ length: 24 }, (_, i) => i);
   days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  dayHourSlots = Array.from({ length: 24 }, (_, i) => i);
   
-  selectedView: 'day' | 'week' | 'resource' = 'week';
+  selectedView: 'day' | 'week' | 'month' | 'agenda' = 'day';
+  editingEventId: number | null = null;
+  activeDate = new Date();
+  eventDraft = {
+    title: '',
+    date: this.toDateInput(new Date()),
+    startTime: '09:00',
+    endTime: '10:00',
+    status: 'confirmed' as 'confirmed' | 'pending' | 'cancelled',
+    description: ''
+  };
   
-  constructor() { }
+  monthGrid: (Date | null)[][] = [];
+  currentMonth: number = new Date().getMonth();
+  currentYear: number = new Date().getFullYear();
+  showEventPopup = false;
+
+  constructor(private sharedData: SharedDataService) { }
 
   ngOnInit(): void {
-    this.initResources();
-    this.generateHeavyEvents();
-  }
-
-  initResources() {
-    const types: ('room' | 'staff' | 'equipment')[] = ['room', 'staff', 'equipment'];
-    const colors = ['#e8f0fe', '#fce8e6', '#e6f4ea', '#fef7e0', '#f1f3f4'];
-    
-    for (let i = 0; i < 20; i++) {
-      this.resources.push({
-        id: `res-${i}`,
-        name: `${types[i % 3].toUpperCase()} ${i + 1}`,
-        type: types[i % 3],
-        availability: true,
-        color: colors[i % colors.length]
-      });
-    }
+    this.sharedData.schedulerEvents$.subscribe(sharedEvents => {
+      this.events = sharedEvents.map(event => this.fromSharedEvent(event));
+      if (!this.events.length) {
+        this.generateHeavyEvents();
+      }
+    });
+    this.generateMonthGrid();
   }
 
   generateHeavyEvents() {
     const startDate = new Date();
-    startDate.setHours(0, 0, 0, 0);
+    startDate.setHours(9, 0, 0, 0);
     
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 15; i++) {
       const start = new Date(startDate);
       start.setDate(start.getDate() + Math.floor(Math.random() * 7));
-      start.setHours(Math.floor(Math.random() * 20));
-      
+      start.setHours(8 + Math.floor(Math.random() * 9));
+
       const end = new Date(start);
-      end.setHours(start.getHours() + 1 + Math.floor(Math.random() * 3));
-      
-      this.events.push({
+      end.setHours(start.getHours() + 1 + Math.floor(Math.random() * 2));
+
+      const event = this.sharedData.createDayEvent({
         id: i,
         title: `Project Sync ${i}`,
-        start,
-        end,
-        resourceId: `res-${Math.floor(Math.random() * this.resources.length)}`,
+        details: `This is a very complex event description for stress testing. ${'detail '.repeat(20)}`,
+        date: start,
+        source: 'scheduler',
+        editable: true,
         status: i % 10 === 0 ? 'cancelled' : (i % 3 === 0 ? 'pending' : 'confirmed'),
-        description: `This is a very complex event description for stress testing. ${'detail '.repeat(20)}`,
-        attendees: Array.from({ length: 5 }, (_, j) => `User ${j}@enterprise.com`)
+        startTime: this.toTime(start),
+        endTime: this.toTime(end)
       });
+
+      this.sharedData.saveSchedulerEvent(event);
     }
   }
 
-  getEventsForSlot(dayIndex: number, hour: number, resourceId: string): ScheduledEvent[] {
+  getEventsForSlot(date: Date, hour: number): ScheduledEvent[] {
     return this.events.filter(e => {
-      const dayMatches = e.start.getDay() === (dayIndex + 1) % 7;
-      const hourMatches = e.start.getHours() <= hour && e.end.getHours() > hour;
-      const resourceMatches = resourceId ? e.resourceId === resourceId : true;
-      return dayMatches && hourMatches && resourceMatches;
+      const eventDate = new Date(e.date);
+      const dayMatches = eventDate.toDateString() === date.toDateString();
+      const eventHour = Number(e.startTime.split(':')[0]);
+      const endHour = Number(e.endTime.split(':')[0]);
+      const hourMatches = eventHour <= hour && endHour > hour;
+      return dayMatches && hourMatches;
     });
   }
 
   calculateHeight(event: ScheduledEvent): number {
-    const duration = (event.end.getTime() - event.start.getTime()) / (1000 * 60 * 60);
+    const duration = this.timeDiffHours(event.startTime, event.endTime);
     return duration * 60; // 60px per hour
+  }
+
+  openNewEvent(dateInput?: Date, hour = 9) {
+    const date = dateInput ? new Date(dateInput) : new Date();
+    date.setHours(hour, 0, 0, 0);
+    this.editingEventId = null;
+    this.eventDraft = {
+      title: '',
+      date: this.toDateInput(date),
+      startTime: `${String(hour).padStart(2, '0')}:00`,
+      endTime: `${String(hour + 1).padStart(2, '0')}:00`,
+      status: 'confirmed',
+      description: ''
+    };
+    this.activeDate = date;
+    this.currentMonth = date.getMonth();
+    this.currentYear = date.getFullYear();
+    this.generateMonthGrid();
+    this.showEventPopup = true;
+  }
+
+  editEvent(event: ScheduledEvent) {
+    this.editingEventId = event.id;
+    this.activeDate = new Date(event.date);
+    this.currentMonth = this.activeDate.getMonth();
+    this.currentYear = this.activeDate.getFullYear();
+    this.generateMonthGrid();
+    this.eventDraft = {
+      title: event.title,
+      date: this.toDateInput(new Date(event.date)),
+      startTime: event.startTime,
+      endTime: event.endTime,
+      status: event.status,
+      description: event.description
+    };
+    this.showEventPopup = true;
+  }
+
+  saveEvent() {
+    const sharedEvent = this.sharedData.createDayEvent({
+      id: this.editingEventId ?? Date.now(),
+      title: this.eventDraft.title,
+      details: this.eventDraft.description,
+      date: new Date(this.eventDraft.date),
+      source: 'scheduler',
+      editable: true,
+      startTime: this.eventDraft.startTime,
+      endTime: this.eventDraft.endTime
+    });
+
+    this.sharedData.saveSchedulerEvent(sharedEvent);
+    this.editingEventId = null;
+    this.showEventPopup = false;
+  }
+
+  deleteEvent(id: number) {
+    this.sharedData.deleteSchedulerEvent(id);
   }
 
   checkConflicts() {
     console.log('Running heavy conflict detection algorithm...');
-    // Simulated O(n^2) complexity for stress test
     for (let i = 0; i < this.events.length; i++) {
       for (let j = i + 1; j < this.events.length; j++) {
         const e1 = this.events[i];
         const e2 = this.events[j];
-        if (e1.resourceId === e2.resourceId && e1.start < e2.end && e2.start < e1.end) {
+        const e1Start = new Date(`${e1.date}T${e1.startTime}`);
+        const e1End = new Date(`${e1.date}T${e1.endTime}`);
+        const e2Start = new Date(`${e2.date}T${e2.startTime}`);
+        const e2End = new Date(`${e2.date}T${e2.endTime}`);
+        if (e1Start < e2End && e2Start < e1End) {
           // Conflict detected
         }
       }
     }
+  }
+
+  private fromSharedEvent(event: SharedCalendarEvent): ScheduledEvent {
+    const start = event.startTime ?? '09:00';
+    const end = event.endTime ?? '10:00';
+    return {
+      id: event.id,
+      title: event.title,
+      date: event.date,
+      startTime: start,
+      endTime: end,
+      status: event.status ?? 'confirmed',
+      description: event.details,
+      editable: event.editable
+    };
+  }
+
+  private toTime(date: Date): string {
+    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  }
+
+  private toDateInput(date: Date): string {
+    return date.toISOString().slice(0, 10);
+  }
+
+  private timeDiffHours(startTime: string, endTime: string): number {
+    const startHour = Number(startTime.split(':')[0]);
+    const endHour = Number(endTime.split(':')[0]);
+    return Math.max(1, endHour - startHour);
+  }
+
+  generateMonthGrid() {
+    const date = new Date(this.currentYear, this.currentMonth, 1);
+    const firstDay = (date.getDay() + 6) % 7;
+    const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+
+    this.monthGrid = [];
+    let week: (Date | null)[] = [];
+    for (let i = 0; i < firstDay; i++) {
+      week.push(null);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      if (week.length === 7) {
+        this.monthGrid.push(week);
+        week = [];
+      }
+      week.push(new Date(this.currentYear, this.currentMonth, day));
+    }
+    if (week.length > 0) {
+      while (week.length < 7) {
+        week.push(null);
+      }
+      this.monthGrid.push(week);
+    }
+  }
+
+  getEventsForDay(date: Date): ScheduledEvent[] {
+    if (!date) return [];
+    return this.events.filter(e => new Date(e.date).toDateString() === date.toDateString());
+  }
+
+  getWeekDates(): Date[] {
+    const today = new Date(this.activeDate);
+    const mondayOffset = (today.getDay() + 6) % 7;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - mondayOffset);
+    monday.setHours(0, 0, 0, 0);
+
+    return this.days.map((_, index) => {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + index);
+      return date;
+    });
+  }
+
+  prevDay() {
+    this.activeDate = new Date(this.activeDate);
+    this.activeDate.setDate(this.activeDate.getDate() - 1);
+    this.currentMonth = this.activeDate.getMonth();
+    this.currentYear = this.activeDate.getFullYear();
+    this.generateMonthGrid();
+  }
+
+  nextDay() {
+    this.activeDate = new Date(this.activeDate);
+    this.activeDate.setDate(this.activeDate.getDate() + 1);
+    this.currentMonth = this.activeDate.getMonth();
+    this.currentYear = this.activeDate.getFullYear();
+    this.generateMonthGrid();
+  }
+
+  prevMonth() {
+    this.currentMonth -= 1;
+    if (this.currentMonth < 0) {
+      this.currentMonth = 11;
+      this.currentYear -= 1;
+    }
+    this.generateMonthGrid();
+  }
+
+  nextMonth() {
+    this.currentMonth += 1;
+    if (this.currentMonth > 11) {
+      this.currentMonth = 0;
+      this.currentYear += 1;
+    }
+    this.generateMonthGrid();
   }
 }

@@ -1,50 +1,105 @@
 <div class="calendar-container">
-  <div class="calendar-header">
-    <button (click)="prevMonth()">◀</button>
-    <h2>{{ getMonthName() }}</h2>
-    <button (click)="nextMonth()">▶</button>
-  </div>
-
-  <div class="calendar-grid">
-    <div *ngFor="let day of weekdays" class="weekday-header">{{ day }}</div>
-    
-    <div *ngFor="let day of days" 
-         class="calendar-day" 
-         [class.today]="day.isToday"
-         [class.not-current]="!day.isCurrentMonth">
-      
-      <div class="day-top">
-        <span class="day-number">{{ day.date | date:'d' }}</span>
-        <span class="lunar-phase" [title]="day.lunarPhase">{{ day.lunarPhase }}</span>
+  <div class="calendar-layout">
+    <div class="calendar-panel">
+      <div class="calendar-header">
+        <button (click)="prevMonth()">◀</button>
+        <h2>{{ getMonthName() }}</h2>
+        <button (click)="nextMonth()">▶</button>
       </div>
 
-      <div class="day-content">
-        <div *ngIf="day.holiday" class="holiday-badge">{{ day.holiday }}</div>
-        
-        <div class="weather-info" *ngIf="day.weather">
-          <span>{{ day.weather.icon }}</span>
-          <span>{{ day.weather.temp }}°C</span>
-        </div>
+      <div class="calendar-grid">
+        <div *ngFor="let day of weekdays" class="weekday-header">{{ day }}</div>
 
-        <div class="events-container">
-          <div *ngFor="let event of day.events" 
-               class="event-pill" 
-               [style.border-left-color]="event.color">
-            {{ event.title }}
+        <div *ngFor="let day of days"
+             class="calendar-day"
+             [class.today]="day.isToday"
+             [class.not-current]="!day.isCurrentMonth"
+             [class.selected]="selectedDate.toDateString() === day.date.toDateString()"
+             (click)="selectDate(day.date)"
+             role="button"
+             tabindex="0">
+          <div class="day-top">
+            <span class="day-number">{{ day.date | date:'d' }}</span>
+            <span class="lunar-phase" [title]="day.lunarPhase">{{ day.lunarPhase }}</span>
+          </div>
+
+          <div class="day-content">
+            <div *ngIf="day.holiday" class="holiday-badge">{{ day.holiday }}</div>
+
+            <div class="weather-info" *ngIf="day.weather">
+              <span>{{ day.weather.icon }}</span>
+              <span>{{ day.weather.temp }}°C</span>
+            </div>
+
+            <div class="events-container">
+              <button *ngFor="let event of day.events"
+                      type="button"
+                      class="event-pill"
+                      [style.border-left-color]="event.priority === 'high' ? '#d93025' : event.priority === 'medium' ? '#fbbc04' : '#34a853'"
+                      (click)="startEdit(event)">
+                {{ event.title }}
+              </button>
+            </div>
+
+            <div class="metrics-overlay">
+              <div class="metric-bar" [style.width.%]="day.metrics?.cpu" [style.background]="'#ff5252'"></div>
+              <div class="metric-bar" [style.width.%]="day.metrics?.memory" [style.background]="'#448aff'"></div>
+            </div>
+          </div>
+
+          <div class="day-meta-hidden">
+            <div *ngFor="let i of [1,2,3,4,5]" class="dummy-data-point"></div>
           </div>
         </div>
-
-        <!-- Stress test metrics -->
-        <div class="metrics-overlay">
-          <div class="metric-bar" [style.width.%]="day.metrics?.cpu" [style.background]="'#ff5252'"></div>
-          <div class="metric-bar" [style.width.%]="day.metrics?.memory" [style.background]="'#448aff'"></div>
-        </div>
-      </div>
-
-      <!-- Extra heavy nesting to stress DOM -->
-      <div class="day-meta-hidden">
-        <div *ngFor="let i of [1,2,3,4,5]" class="dummy-data-point"></div>
       </div>
     </div>
+
+    <aside class="calendar-editor">
+      <h3>{{ selectedDate | date:'fullDate' }}</h3>
+      <div class="editor-form">
+        <label>
+          Title
+          <input [(ngModel)]="eventDraft.title" type="text" placeholder="Add event title">
+        </label>
+        <label>
+          Details
+          <textarea [(ngModel)]="eventDraft.details" rows="4" placeholder="Add a short note"></textarea>
+        </label>
+        <div class="editor-row">
+          <label>
+            Start
+            <input [(ngModel)]="eventDraft.startTime" type="time">
+          </label>
+          <label>
+            End
+            <input [(ngModel)]="eventDraft.endTime" type="time">
+          </label>
+          <label>
+            Priority
+            <select [(ngModel)]="eventDraft.priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+        </div>
+        <button class="save-event" type="button" (click)="saveEvent()">
+          {{ editingEventId ? 'Update Event' : 'Add Event' }}
+        </button>
+      </div>
+
+      <div class="day-event-list">
+        <div *ngFor="let event of getSelectedDayEvents()" class="day-event-card">
+          <div>
+            <strong>{{ event.title }}</strong>
+            <p>{{ event.details }}</p>
+          </div>
+          <div class="event-actions">
+            <button type="button" (click)="startEdit(event)">Edit</button>
+            <button type="button" (click)="removeEvent(event.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>

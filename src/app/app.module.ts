@@ -20,7 +20,6 @@ import { AdvancedFormStepperComponent } from './components/advanced-form-stepper
 import { TreeViewLargeComponent } from './components/tree-view-large/tree-view-large.component';
 import { NotificationHubComponent } from './components/notification-hub/notification-hub.component';
 import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
-import { ResourceMonitorComponent } from './components/resource-monitor/resource-monitor.component';
 
 @NgModule({
   declarations: [],
@@ -42,8 +41,7 @@ import { ResourceMonitorComponent } from './components/resource-monitor/resource
     AdvancedFormStepperComponent,
     TreeViewLargeComponent,
     NotificationHubComponent,
-    SettingsPanelComponent,
-    ResourceMonitorComponent
+    SettingsPanelComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,46 +11,67 @@
 
   <div class="settings-content">
     <div class="content-header">
-      <h2>{{ activeTab | uppercase }} CONFIGURATION</h2>
+      <h2>{{ tabConfigs[activeTab].title | uppercase }} CONFIGURATION</h2>
       <button class="save-btn" (click)="saveSettings()">Apply Global Changes</button>
     </div>
 
     <div class="form-wrapper">
-      <div class="setting-section">
-        <label>System Metadata Identifier</label>
-        <input type="text" [(ngModel)]="formData.systemName">
-        <small>Primary identifier for the core cluster.</small>
+      <p class="tab-description">{{ tabConfigs[activeTab].description }}</p>
+
+      <div class="tab-cards">
+        <article *ngFor="let card of getCardsForActiveTab()" class="tab-card" [class]="card.tone">
+          <h3>{{ card.heading }}</h3>
+          <p>{{ card.value }}</p>
+        </article>
       </div>
 
-      <div class="setting-section toggle">
-        <div class="info">
-          <strong>Auto-Scaling Engine</strong>
-          <p>Dynamically provision resources based on throughput.</p>
+      <div class="tab-records">
+        <div class="record-row" *ngFor="let record of getRecordsForActiveTab()">
+          <span class="record-label">{{ record.label }}</span>
+          <strong class="record-value">{{ record.value }}</strong>
         </div>
-        <input type="checkbox" [(ngModel)]="formData.autoScale">
       </div>
 
-      <div class="setting-section">
-        <label>Instance Cap Limit ({{ formData.maxInstances }})</label>
-        <input type="range" [(ngModel)]="formData.maxInstances" min="1" max="200">
-      </div>
+      <div *ngFor="let field of tabConfigs[activeTab].fields" class="setting-section" [class.toggle]="field.type === 'toggle'">
+        <ng-container [ngSwitch]="field.type">
+          <div *ngSwitchCase="'toggle'" class="toggle-row">
+            <div class="info">
+              <strong>{{ field.label }}</strong>
+              <p>{{ field.help }}</p>
+            </div>
+            <input type="checkbox" [(ngModel)]="formData[field.key]">
+          </div>
 
-      <div class="setting-section">
-        <label>Deployment Region</label>
-        <select [(ngModel)]="formData.region">
-          <option value="us-east-1">US East (N. Virginia)</option>
-          <option value="eu-west-1">EU West (Ireland)</option>
-          <option value="ap-south-1">AP South (Mumbai)</option>
-        </select>
+          <div *ngSwitchCase="'range'">
+            <label>{{ field.label }} ({{ formData[field.key] }})</label>
+            <input type="range" [(ngModel)]="formData[field.key]" min="1" max="200">
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+
+          <div *ngSwitchCase="'select'">
+            <label>{{ field.label }}</label>
+            <select [(ngModel)]="formData[field.key]">
+              <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+
+          <div *ngSwitchCase="'textarea'">
+            <label>{{ field.label }}</label>
+            <textarea rows="3" [(ngModel)]="formData[field.key]"></textarea>
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+
+          <div *ngSwitchDefault>
+            <label>{{ field.label }}</label>
+            <input type="text" [(ngModel)]="formData[field.key]">
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+        </ng-container>
       </div>
 
       <!-- Extra heavy sections -->
-      <div class="debug-dump" *ngFor="let i of [1,2,3]">
-        <h4>System Trace Log v{{i}}</h4>
-        <div class="trace-line" *ngFor="let j of [1,2,3,4,5]">
-          <code>[TRACE] 0x{{j}}FFF: SYNC_ACK_RECEIVED</code>
-        </div>
-      </div>
+      
     </div>
   </div>
 </div>
