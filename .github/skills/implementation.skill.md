@@ -1,8 +1,11 @@
 ---
 name: Angular Migration Implementation
 description: >
-  Executes the migration plan by applying code and configuration changes in a controlled, step-by-step manner.
-  This skill is responsible for all file modifications, dependency updates, and build validations.
+  Executes the v16 -> v17 migration plan by applying code and configuration changes step-by-step.
+  Handles all file modifications, dependency updates, and build validations for the active migration target.
+
+scope:
+  - Angular v16 -> v17 only
 
 dependencies:
   - `planning.skill.md`
@@ -19,7 +22,7 @@ tasks:
 
   - task: Update dependencies.
     instructions:
-      - Run `ng update` or `npm install` to update Angular and third-party packages as defined in the plan.
+      - Run `ng update` or `npm install` to update Angular and third-party packages as defined in the v16 -> v17 plan.
       - Use `--force` or `--legacy-peer-deps` only when explicitly instructed by the plan.
 
   - task: Validate each step.
