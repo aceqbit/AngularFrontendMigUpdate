@@ -14,13 +14,13 @@ This agent focuses on CSS/style issues for the Angular **v16 -> v17** migration 
   - **Color and Gradient Analysis:** Audit the use of multiple colors, CSS variables, and complex gradients (`linear-gradient`, `radial-gradient`). Refactor syntax to be compatible with the latest CSS standards and the Angular build optimizer.
   - **Layout and Sizing:** Analyze responsive layouts using media queries, flexbox, and grid with varying sizes and widths. Ensure that layout calculations and responsive breakpoints are not broken by the migration.
 - **Complex Component Style Migration:**
-  - **Calendar and Scheduler:** Analyze styles for event schedulers, including extended data displays within calendar cells and date range pickers. Refactor styles that rely on deprecated selectors broken by changes in component encapsulation.
-  - **Sticky Notes:** Analyze the CSS responsible for the positioning (`position: sticky`), stacking context (`z-index`), and appearance of sticky note components to ensure behavior remains consistent.
-  - **Data-Intensive Components:** Handle the styling of complex data grids and workflow designers, ensuring that cell alignment, custom themes, and interactive elements are not visually regressed.
+  - **Calendar and Scheduler:** Calendar and Scheduler.
+  - **Sticky Notes:** Sticky Notes.
+  - **Data-Intensive Components:** Data-Intensive Components.
   - **Date Picker and Autocomplete Migration:**
-    - **Date Range Picker:** Analyze and migrate styles for the date range picker, ensuring that data binding for selected dates and ranges is preserved. Pay close attention to the styling of the calendar pop-up, input fields, and any custom themes.
-    - **Autocomplete (Complex):** Migrate styles for complex autocomplete components. This includes the dropdown list, highlighted options, input field styling, and handling of complex data objects bound to the autocomplete values. Ensure that asynchronous data loading indicators and error states are also correctly styled.
-- **Shadow Piercing Audit:** Identify and refactor legacy shadow-piercing descendants (`/deep/`, `>>>`) to modern `::ng-deep` or CSS Custom Properties.
+    - **Date Range Picker:** Date Range Picker.
+    - **Autocomplete (Complex):** Autocomplete (Complex).
+- **Shadow Piercing Audit:** Shadow Piercing Audit.
 - **Architectural Cleanup:** Perform "Clean & Clear" refactors for complex `AppComponent` layouts, transitioning legacy Float/Flex hacks to modern CSS Grid.
 - **Asset Path Correction:** Resolve relative asset paths (backgrounds, fonts) that break during the v16→v17 builder transition.
 - **Encapsulation Stability:** Ensure scoped styles remain stable during architectural refactors.
@@ -48,20 +48,39 @@ Note: The above tasks are prioritized by risk for the v16→v17 migration. Avoid
 - **Total number of components migrated (styles updated):** (agent-updated integer)
 - **Total number of components pending style migration:** (agent-computed integer)
 - **Migration completion percentage:** (computed as migrated/total * 100)
-- **Spec files present:** (number of `*.spec.ts` found)
-- **Spec files missing:** (number of components with no `*.spec.ts`)
 - **Timestamp:** (ISO 8601 UTC when report was generated)
 - **Core details:** color token map, gradients normalized, layout changes list, and list of updated breakpoints.
 
-- **Spec requirement:** Every component must include a `<component>.component.spec.ts` to assist unit testing; the unit-testing agent will discover and run all `*.spec.ts`.
 
 ### General CSS Responsibilities (Component-Agnostic Guidelines)
 - **Design Tokens & Theming:** Prefer CSS Custom Properties and a centralized token map for colors, spacing, and typography so new components automatically inherit consistent theming.
+- **Token Governance:** Keep tokens centralized and versioned so component styles read from shared variables instead of hard-coded values.
 - **Color & Gradient Analysis:** Produce a normalized color palette and convert complex gradients into token-driven variants. Ensure fallback colors are provided for legacy browsers.
+- **Palette Mapping:** Maintain a small, named palette for brand, surface, text, accent, success, warning, and error colors.
 - **Layout & Sizing Rules:** Use fluid units (rem, %) and CSS Grid/Flexbox with named grid areas. Define a small set of responsive breakpoints and document them in the style guide so new components follow them.
+- **Breakpoint Discipline:** Prefer one mobile, one tablet, and one desktop breakpoint unless a component has a documented exception.
 - **Encapsulation-First Approach:** Prefer component-scoped styles with clear, documented CSS variables for cross-component theming. Use `::ng-deep` only when unavoidable and document the reason.
+- **Selector Hygiene:** Avoid deep descendant selectors and brittle DOM coupling; favor utility classes and component-scoped modifiers.
 - **Accessibility & Contrast:** Enforce AA contrast ratios for foreground/background color pairs and ensure focus-visible outlines are preserved across themes.
+- **Interaction States:** Define hover, focus-visible, disabled, and active states for interactive controls before adding component-specific overrides.
 - **Performance:** Avoid global style recalculations and expensive selectors; prefer class-based modifiers and avoid deep descendant selectors that degrade render performance.
-- **New Component Onboarding:** Provide a lightweight template and checklist for adding new components: token usage, responsive checks, spec file presence, and automated visual regression hooks.
+- **Style Cost Control:** Keep expensive effects such as heavy shadows, large filters, and wide-area repaints isolated to the smallest possible surface.
+- **New Component Onboarding:** Provide a lightweight template and checklist for adding new components: token usage, responsive checks, and automated visual regression hooks.
+- **Visual Regression Hooks:** Capture baseline screenshots for layout-heavy components before shipping style changes.
 - **Gradient, Color and Theme Migration:** Provide automated mapping rules from legacy gradient definitions to tokenized gradients and document overrides for specialized components.
+
+### Last Run Summary
+
+- Report generated: [report/css_report.md](report/css_report.md)
+- Total components discovered: 16
+- Components with styles updated by agent: 0
+- Total number of components migrated: 0
+- Components pending style migration: 16
+- Total number of components pending migration: 16
+- Migration completion percentage: 0%
+- Spec files present: 16
+- Spec files missing: 0
+- Report timestamp (UTC): 2026-05-19T12:00:00Z
+
+Please review `report/css_report.md` for component details and next steps.
 
