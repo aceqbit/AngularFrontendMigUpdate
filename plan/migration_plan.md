@@ -23,3 +23,5 @@ Scope: this plan is the active migration path for Angular 16 → 17 only.
 
 ## Notes
 - Historical v17→v21 guidance is intentionally excluded from the active plan.
+
+- See per-version atomic plan: [migration_v16_to_v17.md](plan/migration_v16_to_v17.md)
