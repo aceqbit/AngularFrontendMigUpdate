@@ -73,4 +73,10 @@ Within this combined framework, the implementation logic is enhanced with greate
 
 - **Spec requirement:** The combined agent enforces that every component includes a `<component>.component.spec.ts` and that the unit-testing agent discovers and runs all `*.spec.ts` during validation.
 
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+
 

@@ -188,6 +188,12 @@ A robust rollback strategy is critical for maintaining stability during a comple
 
 - **Spec requirement:** The planning agent will require that each component included in the plan has a corresponding `<component>.component.spec.ts` so tests can be executed during implementation and validation.
 
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:
 - **Executive Summary:** A high-level overview of the migration goals and timeline.

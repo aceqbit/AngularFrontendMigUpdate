@@ -112,3 +112,9 @@ The assessment agent is responsible for creating a complete inventory of the pro
 
 - **Spec requirement:** Every component discovered MUST have a corresponding `<component>.component.spec.ts` file. The unit-testing agent will discover and run all `*.spec.ts` files and include results in `report/test_report.md`.
 - **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, and push checkpoint.
+
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.

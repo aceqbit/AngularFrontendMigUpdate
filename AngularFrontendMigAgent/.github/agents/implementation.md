@@ -71,3 +71,9 @@ Note (active policy): For this workspace the implementation agent will only exec
 
 - **Spec requirement:** Implementation steps MUST ensure that for every component modified or created, a corresponding `<component>.component.spec.ts` exists; the unit-testing agent will discover and run all `*.spec.ts` as part of validation.
 
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+

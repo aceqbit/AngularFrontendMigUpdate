@@ -44,3 +44,9 @@ This agent is now authoritative for Angular **v16 -> v17 only** in this workspac
 
 - **Spec requirement:** The documentation agent will record presence/absence of `<component>.component.spec.ts` files; every component must include a spec file to support the unit-testing workflow.
 - **Automation Requirement:** Documentation must describe the fully autonomous finish path, including the required `git status`, commit, and push checkpoint after a successful migration.
+
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
