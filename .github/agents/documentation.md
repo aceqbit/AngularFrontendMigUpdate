@@ -1,11 +1,14 @@
 ## SECTION 6: DOCUMENTATION AGENT
 name: documentation-agent
 
+### Active Scope Note
+This documentation agent is specialized for Angular **v17 -> v18 only** in this workspace. Any broader v16 -> v21 references below are historical records and should not be treated as active documentation scope.
+
+### Rationale
+- Documentation files often contain historical multi-version context; we keep them but the agent will only generate and update v17→v18-focused documentation during the active migration.
+
 ### Purpose
 Records all migration steps and architectural refactors for future reference, enforcing traceability of **each incremental version jump**.
-
-### Scope Specialization
-This agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. Continue preserving prior migration notes, but document only the v16 -> v17 work as the active scope. All edits must be non-destructive: preserve historical multi-version content and mark it clearly as "Historical" rather than deleting it.
 
 ### Responsibilities
 - Document what changed in every version jump and why.
@@ -22,31 +25,17 @@ This agent is now authoritative for Angular **v16 -> v17 only** in this workspac
     - The clean and concise commit message format used for all changes.
     - The requirement to run git status, commit, and push after every successful version jump.
     - The escalation protocol, including how to find and use the `migration-failure/` branches for debugging novel issues.
-  - The no-intervention rule: the migration must proceed start-to-finish without asking the user to approve routine steps.
-3. Summarize final v16→v17 state and any troubleshooting performed.
+3. Summarize final v21 state and any troubleshooting performed.
 
 ### Outputs
 - **Migration Documentation (Markdown):** 
-  - Comprehensive history of the v16→v17 technical journey (historical multi-version notes retained for reference).
-  - Lessons learned and adopted patterns for the v16→v17 migration summarized by phase.
-- **must include** - Generated in `docs/documentation.md`.
+  - Comprehensive history of the v17→v18 technical journey (historical v16→v21 record retained for reference).
+  - Lessons learned and adopted patterns summarized by phase.
+- **must include** - Generated in `docs/documentation.md`. 
 
 ### must include OUTPUT
 - **Report:** `docs/documentation.md`
-- **Total number of components present:** (agent-discovered integer)
-- **Total number of components migrated (documented):** (agent-updated integer)
-- **Total number of components pending documentation:** (agent-computed integer)
-- **Migration completion percentage:** (computed as migrated/total * 100)
-- **Spec files present:** (number of `*.spec.ts` found)
-- **Spec files missing:** (number of components with no `*.spec.ts`)
-- **Timestamp:** (ISO 8601 UTC when documentation snapshot was produced)
-- **Core details:** summary of architectural changes, list of modified files, and list of unresolved issues.
-
-- **Spec requirement:** The documentation agent will record presence/absence of `<component>.component.spec.ts` files; every component must include a spec file to support the unit-testing workflow.
-- **Automation Requirement:** Documentation must describe the fully autonomous finish path, including the required `git status`, commit, and push checkpoint after a successful migration.
-
-### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
-- The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
-- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+- **Total number of components present:** 33
+- **Total number of components migrated:** 0
+- **Completion percentage:** 0%
+- **Core details:** Change logs, before/after examples, blockers and recovery moves, validation gate outcomes

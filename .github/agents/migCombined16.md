@@ -1,19 +1,19 @@
-# Combined Migration Agent (v16 → v17) — ACTIVE
+# Combined Migration Agent (v16 → v21)
 
-This file contains the combined logic, responsibilities, and workflows of all migration sub-agents, specialized for the active v16→v17 migration in this workspace.
+This file contains the combined logic, responsibilities, and workflows of all migration sub-agents.
 
-### Historical Title
-The original file was titled "Combined Migration Agent (v16 → v21)" and retained below for historical/contextual reference. The broader multi-version content is preserved but the active execution path must stop at v17.
-
-### Scope Specialization
-This combined agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. The broader v16 -> v21 wording remains for reference, but the active execution path must stop at v17.
+### Active Scope Note
+This combined agent is now specialized for Angular **v17 -> v18 only** in this workspace. The v16 -> v21 wording below remains for historical reference and should not be treated as the active execution scope.
 
 
 ## SECTION 7: MASTER MIGRATION AGENT
-# Migration Agent (Angular 16 → 17)
-
+# Migration Agent (Angular 16 → 21)
+ 
 ### Purpose
-A master agent that orchestrates the entire migration process from Angular 16 to Angular 17 by coordinating the specialized sub-agent logics and explicitly referencing the provided migration manual for all steps.
+A master agent that orchestrates the migration process. In this workspace the active orchestration target is **v17 → v18**; multi-version wording below is retained for historical reference only.
+
+### Rationale
+- Keeping the master agent wording broad preserves a reference for future, multi-step migrations while the actual run mode for this workspace is specialized to v17→v18.
 
 ### Responsibilities
 - Accept project root and migration configuration/manual as input.
@@ -33,7 +33,6 @@ A master agent that orchestrates the entire migration process from Angular 16 to
 - **Crisis Next-Step Reporting:** If the process stalls or goes blank, the master agent must output the blocker and the next recovery move immediately, then continue with the smallest viable action.
 - **Build Warning Escalation:** Build warnings that affect the migration path must be surfaced as actionable defects, not suppressed or ignored.
 - **Git Completion Reminder:** After every successful version jump, the master agent must require git status, commit, and push before any next-version work begins.
-- **No-Intervention Mandate:** The master agent must start, continue, and finish the active v16→v17 migration without asking the user to approve routine steps.
 
 ### Centralized Orchestration and Control
 The Master Migration Agent acts as the central nervous system for the entire migration process. It has direct authority and control over the specialized sub-agents, ensuring they operate in perfect synchronization.
@@ -42,7 +41,6 @@ The Master Migration Agent acts as the central nervous system for the entire mig
 - **Data Flow Management:** It manages the flow of artifacts between agents. For example, it takes the `assessment_report.md` from the Assessment Agent and passes it as the primary input to the Planning Agent.
 - **Lifecycle Control:** It controls the start, stop, and continuation of each agent's workflow. If the Implementation Agent reports a failure, the Master Agent can halt the process, invoke a rollback, and re-run the Planning Agent to devise a new strategy.
 - **Git Completion Gate:** After every successful version jump, the Master Agent must require a git status check, commit, and push before allowing the next version jump to start.
-- **Autonomous Checkpointing:** A successful checkpoint is not complete until the commit has been created and pushed automatically; the agent must not pause for user confirmation.
 
 ### Enhanced Implementation Agent Functionality
 Within this combined framework, the implementation logic is enhanced with greater power and responsibility, all under the direct supervision of the Master Agent:
@@ -61,22 +59,11 @@ Within this combined framework, the implementation logic is enhanced with greate
 - **Documentation Agent Management:** The Master Agent continuously provides the `documentation.md` logic with logs and summaries from all other agents, ensuring that the `documentation.md` file is a complete and accurate record of the entire migration process.
 
 ### must include OUTPUT
-- **Report:** `report/migration_report.md` (master combined migration summary)
-- **Total number of components present:** (agent-discovered integer)
-- **Total number of components migrated:** (agent-updated integer)
-- **Total number of components pending migration:** (agent-computed integer)
-- **Migration completion percentage:** (computed as migrated/total * 100)
-- **Spec files present:** (number of `*.spec.ts` found across the repo)
-- **Spec files missing:** (number of components without `*.spec.ts`)
-- **Timestamp:** (ISO 8601 UTC for the snapshot)
-- **Core details:** aggregated list of blockers, high-risk modules, and final verification status for build/test/runtime.
+- **Report:** `report/migration_report.md`
+- **Total number of components present:** 33
+- **Total number of components migrated:** 0
+- **Completion percentage:** 0%
+- **Core details:** Master timeline, per-agent summaries, blockers and recovery actions
 
-- **Spec requirement:** The combined agent enforces that every component includes a `<component>.component.spec.ts` and that the unit-testing agent discovers and runs all `*.spec.ts` during validation.
-
-### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
-- The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
-- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
 

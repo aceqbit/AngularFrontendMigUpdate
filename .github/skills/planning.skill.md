@@ -1,17 +1,11 @@
 ---
-
-### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
-- The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
-- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Planning
 description: >
-  Constructs a detailed, phased plan for the v16 -> v17 migration based on assessment findings.
+  Constructs a detailed, phased plan for the v17 -> v18 migration based on assessment findings.
   Breaks down the upgrade into sequential, manageable tasks with clear validation criteria.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 dependencies:
   - `assessment.skill.md`
@@ -23,9 +17,8 @@ tasks:
   - task: Decompose assessment findings into a phased roadmap.
     instructions:
       - Parse `report/assessment_report.md` to extract all identified issues.
-      - Group issues
-       into logical phases (e.g., Core Updates, Dependency Fixes, Refactoring).
-      - Create a strict, sequential plan for the v16 -> v17 migration only.
+      - Group issues into logical phases (e.g., Core Updates, Dependency Fixes, Refactoring).
+      - Create a strict, sequential plan for the v17 -> v18 migration only.
 
   - task: Define tasks, risks, and validation criteria for each phase.
     instructions:
@@ -40,7 +33,13 @@ tasks:
 
   - task: Generate the Migration Plan.
     instructions:
-      - Compile all phases, tasks, and metadata into a comprehensive `migration_plan.md`.
+      - Compile all phases, tasks, and metadata into a comprehensive `migration_v17_to_v18.md`.
+      - The plan file must be INDEPENDENT and include:
+        - Target version range (Angular 17 -> 18)
+        - Phase breakdown specific to v17 -> v18
+        - Validation gates (build, test, lint)
+        - Rollback trigger conditions and procedures
+        - Git checkpoint name (e.g., "v18-stable")
       - The plan must be ordered and easy to follow.
-    output: `plan/migration_plan.md`
+    output: `plan/migration_v17_to_v18.md`
 ---
