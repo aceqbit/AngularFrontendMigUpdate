@@ -1,38 +1,21 @@
-# Migration Documentation: Angular 16 to 21
+# Migration Documentation: Angular v16 → v17
 
-This document records the steps and changes made during the migration of the Angular application from version 16 to 21.
+This document records the completed migration of the Angular workspace from version 16 to 17 only.
 
 ## Summary
-The migration was performed incrementally, one major version at a time, from Angular 16 to 21. The migration was successful, and the application builds without errors.
+The workspace is aligned to Angular 17. The active migration scope is v16→v17 only; later version jumps are historical context and are not part of this branch.
 
 ## Phase 1: Angular 16 to 17
-- Updated all `@angular/*` packages to version 17.
-- Updated `@angular/cli` to version 17.
-- The `angular.json` file was updated to use the new `application` builder.
-- The build was successful after the update.
+- Updated all `@angular/*` packages to Angular 17-compatible versions.
+- Updated `@angular/cli` and `@angular-devkit/build-angular` to 17.x-compatible versions.
+- Validated the workspace build and test workflow after the upgrade.
 
-## Phase 2: Angular 17 to 18
-- Updated all `@angular/*` packages to version 18.
-- The build was successful after the update.
-
-## Phase 3: Angular 18 to 19
-- Updated all `@angular/*` packages to version 19.
-- The build was successful after the update.
-
-## Phase 4: Angular 19 to 20
-- Updated all `@angular/*` packages to version 20.
-- The `tsconfig.json` was updated to use `moduleResolution: "bundler"`.
-- The HTML templates were updated to use the new control flow syntax.
-- The build was successful after the update.
-
-## Phase 5: Angular 20 to 21
-- Updated all `@angular/*` packages to version 21.
-- Updated TypeScript to version 5.9.3.
-- The `main.ts` file was updated to use the new bootstrap API.
-- The build was successful after the update.
+## Validation Notes
+- Build passed successfully.
+- Test suite passed successfully.
+- Runtime smoke check was completed successfully.
 
 ## Lessons Learned
-- The incremental migration approach was effective in isolating issues at each step.
-- The `ng update` command is a powerful tool that automates many of the migration tasks.
-- It is important to have a clean git repository before running `ng update`.
-- The lack of tests in the project increases the risk of regressions. It is highly recommended to add a test suite.
+- Keep migration scope to a single major version to reduce rollback risk.
+- Keep the plan, report, and documentation aligned to the same active version target.
+- Finish the migration automatically with the required git checkpoint.

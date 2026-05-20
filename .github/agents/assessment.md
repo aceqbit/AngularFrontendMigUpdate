@@ -20,6 +20,7 @@ This agent now focuses on assessing readiness for the single, atomic upgrade fro
 Note (active policy): For this workspace the active enforcement is to validate the single v16 → v17 jump and create a git checkpoint on success. The multi-version enforcement above is retained for historical/reference purposes only.
 - **Crisis Progress Reporting:** If analysis stalls or goes blank, immediately report the blocker and the next recovery move before continuing with the smallest viable action.
 - **Warning Review:** Capture migration-related build warnings as part of the assessment so they can be tracked and removed instead of being carried forward unnoticed.
+- **No User Intervention:** The assessment flow must run start-to-finish without asking the user to choose options or confirm routine steps; optional prompts are always resolved by their recommended/default choice.
 
 ### Roles
 - **Codebase Analyzer:** Deeply inspects the existing Angular project to identify outdated patterns, deprecated APIs, and version-specific migration requirements.
@@ -110,3 +111,4 @@ The assessment agent is responsible for creating a complete inventory of the pro
 - **Additional core details:** list of modules impacted, major blockers, and top 5 risk items.
 
 - **Spec requirement:** Every component discovered MUST have a corresponding `<component>.component.spec.ts` file. The unit-testing agent will discover and run all `*.spec.ts` files and include results in `report/test_report.md`.
+- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, and push checkpoint.
