@@ -1,13 +1,16 @@
-.scheduler-container{display:flex;flex-direction:column;min-height:100vh;background:linear-gradient(180deg,#f8fbff 0%,#ffffff 100%);padding:18px;gap:16px;overflow:auto}
+.scheduler-container{display:flex;flex-direction:column;min-height:100vh;background:linear-gradient(180deg,#f8fbff 0%,#ffffff 100%);padding:18px;gap:16px;overflow-x:hidden}
 .scheduler-toolbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding-bottom:12px;border-bottom:2px solid #edf2f7}
 .scheduler-toolbar h2{color:#0f172a;margin:0}
 .scheduler-subtitle{margin:6px 0 0;color:#64748b;font-size:.92rem}
+.scheduler-toolbar > div{min-width:0}
+.toolbar-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
 .view-selector button,.action-btn{padding:8px 14px;border:1px solid #d6dbe3;background:#fff;cursor:pointer;border-radius:10px}
 .view-selector button.active{background:#0f62fe;color:#fff;border-color:#0f62fe}
 .action-btn{font-weight:600}
 .action-btn.primary{background:#0f62fe;color:#fff;border-color:#0f62fe}
 .conflict-btn{background:#ea4335;color:#fff;border-color:#ea4335}
 .scheduler-editor{background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
+.scheduler-editor,.day-view-panel,.week-view-panel,.month-view-panel,.agenda-view{min-width:0}
 .editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .editor-grid label{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:#475569}
 .editor-grid input,.editor-grid select,.editor-grid textarea{border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;font:inherit;background:#fff}
@@ -53,4 +56,13 @@
 	.month-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 	.timeline-row{grid-template-columns:78px minmax(0,1fr)}
 	.week-card{grid-template-columns:96px minmax(0,1fr)}
+}
+
+@media (max-width: 960px) {
+	.scheduler-toolbar{align-items:stretch}
+	.scheduler-toolbar > div,
+	.toolbar-actions,
+	.view-selector{width:100%}
+	.toolbar-actions{justify-content:flex-start}
+	.panel-heading{align-items:flex-start}
 }

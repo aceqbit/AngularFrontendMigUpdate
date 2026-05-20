@@ -1,5 +1,12 @@
 <div class="stepper-container">
-  <div class="stepper-title">Deployment Setup Wizard</div>
+  <div class="stepper-hero">
+    <div>
+      <p class="eyebrow">Deployment Wizard</p>
+      <div class="stepper-title">Deployment Setup Wizard</div>
+    </div>
+    <p class="stepper-summary">Identity verification, resource configuration, security protocols, and final review are connected in sequence.</p>
+  </div>
+
   <div class="stepper-header">
     <div *ngFor="let step of steps" class="step-item" [class]="getStepStatusClass(step.id)">
       <div class="step-circle">{{ step.id + 1 }}</div>
@@ -8,7 +15,6 @@
   </div>
 
   <div class="stepper-body">
-    <!-- Step 0: Identity -->
     <div *ngIf="currentStep === 0" class="form-content">
       <h3>Personal Enterprise Profile</h3>
       <div class="form-grid">
@@ -27,7 +33,6 @@
       </div>
     </div>
 
-    <!-- Step 1: Resource -->
     <div *ngIf="currentStep === 1" class="form-content">
       <h3>Cluster Resource Allocation</h3>
       <div class="form-grid">
@@ -46,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Step 2: Security -->
     <div *ngIf="currentStep === 2" class="form-content">
       <h3>Security & Compliance Protocols</h3>
       <div class="field checkbox">
@@ -63,13 +67,11 @@
       </div>
     </div>
 
-    <!-- Step 3: Review -->
     <div *ngIf="currentStep === 3" class="form-content review">
       <h3>Summary of Proposed Infrastructure</h3>
       <pre>{{ formData | json }}</pre>
-      <!-- Heavy summary markers -->
       <div class="summary-check" *ngFor="let i of [1,2,3,4,5]">
-        ✅ Protocol {{i}} Validated
+        Protocol {{ i }} validated
       </div>
     </div>
   </div>

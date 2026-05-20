@@ -5,12 +5,14 @@
   border-radius: 18px;
   box-shadow: 0 18px 38px rgba(0,0,0,0.28);
   font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
 }
 
 .calendar-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
   gap: 20px;
+  min-width: 0;
 }
 
 .calendar-panel {
@@ -177,6 +179,12 @@
   gap: 10px;
 }
 
+.calendar-editor,
+.day-event-card,
+.editor-row {
+  min-width: 0;
+}
+
 .save-event {
   border: none;
   border-radius: 10px;
@@ -214,4 +222,14 @@
   border-radius: 8px;
   padding: 6px 10px;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .calendar-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .calendar-editor {
+    order: -1;
+  }
 }

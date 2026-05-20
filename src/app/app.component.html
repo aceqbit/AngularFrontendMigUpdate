@@ -41,17 +41,18 @@
       <app-event-scheduler></app-event-scheduler>
     </section>
 
-    <!-- GRID SECTION -->
-    <section [hidden]="activeSection !== 'grid'">
-      <app-data-grid></app-data-grid>
-      <div style="margin-top: 40px;">
-        <app-autocomplete-complex></app-autocomplete-complex>
+    <!-- LABS SECTION -->
+    <section [hidden]="activeSection !== 'labs'" class="labs-section">
+      <div class="labs-header">
+        <h2>Component Labs</h2>
+        <p>Four focused interaction modules for advanced Angular patterns and polished UI work.</p>
       </div>
-    </section>
-
-    <!-- EXPLORER SECTION -->
-    <section [hidden]="activeSection !== 'explorer'">
-      <app-file-explorer></app-file-explorer>
+      <div class="labs-grid">
+        <app-async-autocomplete-lab></app-async-autocomplete-lab>
+        <app-chips-input-lab></app-chips-input-lab>
+        <app-file-dropzone-lab></app-file-dropzone-lab>
+        <app-context-menu-overlays-lab></app-context-menu-overlays-lab>
+      </div>
     </section>
 
     <!-- STEPPER SECTION -->

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  DataGridComponent,
-} from '../data-grid/data-grid.component';
-import {
   DashboardWidgetsComponent,
 } from '../dashboard-widgets/dashboard-widgets.component';
 import {
@@ -28,7 +25,6 @@ interface Widget {
   standalone: true,
   imports: [
     CommonModule,
-    DataGridComponent,
     DashboardWidgetsComponent,
     CalendarComponent,
     AdvancedFormStepperComponent,

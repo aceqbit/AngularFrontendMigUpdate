@@ -16,6 +16,7 @@ export interface SharedCalendarEvent {
   resourceId?: string;
   attachments?: string[];
   priority?: 'low' | 'medium' | 'high';
+  updatedAt?: string;
 }
 
 export interface SystemPulse {
@@ -76,7 +77,29 @@ export class SharedDataService {
   }
 
   private upsertEvent(subject: BehaviorSubject<SharedCalendarEvent[]>, storageKey: string, entry: SharedCalendarEvent) {
-    const next = subject.value.filter(item => item.id !== entry.id).concat(entry).sort((left, right) => left.date.localeCompare(right.date) || left.id - right.id);
+    const nextEntry = {
+      ...entry,
+      updatedAt: new Date().toISOString()
+    };
+
+    const next = subject.value
+      .filter(item => item.id !== nextEntry.id)
+      .concat(nextEntry)
+      .sort((left, right) => {
+        const leftUpdated = Date.parse(left.updatedAt ?? left.date);
+        const rightUpdated = Date.parse(right.updatedAt ?? right.date);
+
+        if (rightUpdated !== leftUpdated) {
+          return rightUpdated - leftUpdated;
+        }
+
+        const dateDiff = Date.parse(right.date) - Date.parse(left.date);
+        if (dateDiff !== 0) {
+          return dateDiff;
+        }
+
+        return right.id - left.id;
+      });
     subject.next(next);
     this.writeStorage(storageKey, next);
   }
@@ -132,6 +155,7 @@ export class SharedDataService {
       resourceId: payload.resourceId,
       attachments: payload.attachments ?? [],
       priority: payload.priority,
+      updatedAt: new Date().toISOString()
     };
 
     return event;

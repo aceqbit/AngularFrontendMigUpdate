@@ -39,7 +39,7 @@
            [class.pinned]="note.isPinned">
         
         <div class="note-header">
-          <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
+          <input [(ngModel)]="note.title" (ngModelChange)="updateNoteTitle(note, $event)" class="note-title-input" placeholder="Title...">
           <div class="actions">
             <select class="priority-select" [(ngModel)]="note.priority" (change)="moveNoteToPriority(note)">
               <option value="low">Low</option>

@@ -60,7 +60,7 @@ export class EventSchedulerComponent implements OnInit {
     const startDate = new Date();
     startDate.setHours(9, 0, 0, 0);
     
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
       const start = new Date(startDate);
       start.setDate(start.getDate() + Math.floor(Math.random() * 7));
       start.setHours(8 + Math.floor(Math.random() * 9));
@@ -70,8 +70,8 @@ export class EventSchedulerComponent implements OnInit {
 
       const event = this.sharedData.createDayEvent({
         id: i,
-        title: `Project Sync ${i}`,
-        details: `This is a very complex event description for stress testing. ${'detail '.repeat(20)}`,
+        title: `Project Sync ${i + 1}`,
+        details: `Agenda item ${i + 1} focused on live coordination, milestone review, and next-step actions.`,
         date: start,
         source: 'scheduler',
         editable: true,

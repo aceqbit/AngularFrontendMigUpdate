@@ -90,8 +90,8 @@ export class StickyNotesComponent implements OnInit {
       dueDay: this.composer.dueDay,
       attachments: [...this.composer.attachments]
     };
-    this.notes.push(newNote);
-    this.appendToPriorityBucket(newNote);
+    this.notes = [newNote, ...this.notes.filter(note => note.id !== newNote.id)];
+    this.refreshPriorityBuckets();
     this.syncNoteWithCalendar(newNote);
     this.composer = { title: '', content: '', priority: 'low', dueDay: this.weekDays[new Date().getDay()], attachments: [] };
   }
@@ -126,8 +126,7 @@ export class StickyNotesComponent implements OnInit {
 
   moveNoteToPriority(note: Note) {
     note.lastModified = new Date();
-    this.removeFromPriorityBuckets(note.id);
-    this.appendToPriorityBucket(note);
+    this.promoteNoteToTop(note);
     this.syncNoteWithCalendar(note);
   }
 
@@ -138,16 +137,28 @@ export class StickyNotesComponent implements OnInit {
   updateNoteContent(note: Note, event: any) {
     note.content = event.target.value;
     note.lastModified = new Date();
+    this.promoteNoteToTop(note);
+    this.syncNoteWithCalendar(note);
+  }
+
+  updateNoteTitle(note: Note, value: string) {
+    note.title = value;
+    note.lastModified = new Date();
+    this.promoteNoteToTop(note);
     this.syncNoteWithCalendar(note);
   }
 
   togglePin(note: Note) {
     note.isPinned = !note.isPinned;
+    note.lastModified = new Date();
+    this.promoteNoteToTop(note);
   }
 
   changeColor(note: Note) {
     const currentIndex = this.colors.indexOf(note.color);
     note.color = this.colors[(currentIndex + 1) % this.colors.length];
+    note.lastModified = new Date();
+    this.promoteNoteToTop(note);
   }
 
   handleComposerFiles(event: Event) {
@@ -161,6 +172,7 @@ export class StickyNotesComponent implements OnInit {
     const files = Array.from(input.files ?? []).map(file => file.name);
     note.attachments = [...note.attachments, ...files];
     note.lastModified = new Date();
+    this.promoteNoteToTop(note);
     this.syncNoteWithCalendar(note);
     input.value = '';
   }
@@ -182,24 +194,15 @@ export class StickyNotesComponent implements OnInit {
     this.sharedData.saveSchedulerEvent(eventEntry);
   }
 
-  private appendToPriorityBucket(note: Note) {
-    if (note.priority === 'high') {
-      this.highPriorityNotes.push(note);
-      return;
-    }
-
-    if (note.priority === 'medium') {
-      this.mediumPriorityNotes.push(note);
-      return;
-    }
-
-    this.lowPriorityNotes.push(note);
-  }
-
   private removeFromPriorityBuckets(id: number) {
     this.highPriorityNotes = this.highPriorityNotes.filter(note => note.id !== id);
     this.mediumPriorityNotes = this.mediumPriorityNotes.filter(note => note.id !== id);
     this.lowPriorityNotes = this.lowPriorityNotes.filter(note => note.id !== id);
+  }
+
+  private promoteNoteToTop(note: Note) {
+    this.notes = [note, ...this.notes.filter(existing => existing.id !== note.id)];
+    this.refreshPriorityBuckets();
   }
 
   private refreshPriorityBuckets() {
