@@ -1,3 +1,31 @@
+# Migration Report — Angular 19 → 20
+
+Date: 2026-05-21
+
+## Summary
+- Migration target: Angular 19 → 20
+- Packages updated: `@angular/*` to ^20.0.0 (see `package.json`), `@angular/cli` and `@angular-devkit/build-angular` updated, TypeScript bumped to `^5.9.0`.
+- Total components present: 19
+- Total components migrated: 19 (timer/polling components and other surface fixes applied)
+
+## Actions Performed (v19→v20)
+1. Assessment: scanned `src/app` and confirmed timer/polling components already use `ChangeDetectorRef.markForCheck()`. See `report/assessment_v19_to_v20.md`.
+2. Dependency update: updated `package.json` to target Angular v20 and installed packages with `npm install --legacy-peer-deps` due to peer dependency constraints.
+3. Build: ran `npx ng build --configuration=production` — build succeeded with non-blocking warnings.
+4. Tests: ran `npx ng test --watch=false` — all specs passed (21/21).
+5. Checkpoint: committed and pushed migration changes and updated tag `v20-stable` to point at the migration commit.
+
+## Validation
+- Build: success (output bundles generated, minor warnings)
+- Unit tests: success (21/21)
+- Git: commit `0f925a6` pushed to `migration/v19-to-20`; tag `v20-stable` updated and pushed to origin
+
+## Warnings & Notes
+- Several CSS files exceeded configured budgets (informational). These are non-blocking but may warrant future optimization.
+- The compiler emitted warnings about components declared but not used in templates — review if desired.
+
+---
+
 # Migration Report — Angular 18 → 19
 
 Date: 2026-05-21
