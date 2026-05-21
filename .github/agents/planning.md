@@ -57,30 +57,28 @@ The Planning Agent's first responsibility is to ingest the `assessment_report.md
   - This index helps the implementation agent sequence version jumps and track progress.
 ### Rationale: 
 User experienced midway migration failure. Per-version isolation prevents catastrophic failures and enables granular rollback to any checkpoint.
-
+### Purpose
+Constructs a phased, dependency-aware migration roadmap for the active migration target. (Workspace-specialized to v17→v18 by default.)
 ### Core Risk Analysis
 A detailed breakdown of risks identified during assessment:
 
-- **Dependency Conflicts:** Risks associated with third-party libraries that are incompatible with newer Angular versions. This can lead to build failures or runtime errors.
+### Focused Purpose & Rationale
+This planning agent now focuses on producing a clear, atomic plan for the v17→v18 migration. The original multi-version wording (16→21) is retained as historical reference, but the active behavior is to generate and validate only the v17→v18 plan unless explicitly asked to expand the scope.
 - **Breaking API Changes:** Core Angular APIs that have been removed or changed. Code relying on these APIs will fail until it is refactored.
 - **Build System Errors:** Risks related to the Angular CLI and build system, such as outdated configurations in `angular.json` that are no longer supported.
 - **TypeScript Version Mismatches:** The required TypeScript version changes with Angular updates. Failure to align this will prevent the project from compiling.
-- **Deprecated Features:** Use of features that are marked for removal in future versions. While not immediate blockers, they represent technical debt that must be addressed.
+### Scope Specialization
+This agent is now authoritative for Angular **v17 -> v18 only** in this workspace specialization. Preserve the existing planning guidance as reference material, but treat v17 -> v18 as the only active migration target.
 
 ### Phased Migration Strategy
-
 #### Phase 1: Angular Core Updates
 - **Objective:** Update all official `@angular/*` packages to the next target version.
-- **Tasks:**
+Note: In this workspace the "version rule" applies to the v17→v18 checkpoint. Further version checkpoints are historical recommendations.
     - Run `ng update @angular/core @angular/cli` for the target version.
     - Validate that `package.json` reflects the correct versions.
-    - Perform a clean install of `node_modules`.
-
-#### Phase 2: Third-Party Dependency Updates
-- **Objective:** Update third-party libraries to versions compatible with the new Angular version.
 - **Tasks:**
-    - Identify and update libraries with known incompatibilities.
-    - Address peer dependency warnings.
+  - Define validation gates (build/test verification) for the **v17 -> v18** migration. (Historical: multi-version gates are documented for larger migrations.)
+  - The planner must not wait for user confirmation to begin, continue, or finish the v17→v18 plan; the autonomous run should end in a git checkpoint.
     - Test critical functionality involving these libraries.
 
 #### Phase 3: TypeScript and Build Error Fixes
@@ -193,6 +191,11 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - The agent must accept changes and keep files in place.
 - The agent must stop only after migration to v17 is completed.
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+
+### AUTOMATION ENFORCEMENT (Added)
+- **Autonomy mandate (must do):** The planning agent must produce and update atomic plans for v16→v17 and must enable an autonomous execution path: when `implement the migration plan` is requested, the planner's output must contain explicit automated commands and validation gates so the implementation agent can run start-to-finish without human confirmation.
+- **No prompts:** The planner must flag any steps that traditionally require user decisions and specify the recommended/default choice so automation can proceed without prompts.
+- **Mirror & Record:** This requirement is recorded in `/memories/auto_migration_policy.md` and mirrored to the implementation and documentation agents.
 
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:

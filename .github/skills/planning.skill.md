@@ -7,11 +7,11 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Planning
 description: >
-  Constructs a detailed, phased plan for the v16 -> v17 migration based on assessment findings.
+  Constructs a detailed, phased plan for the v17 -> v18 migration based on assessment findings.
   Breaks down the upgrade into sequential, manageable tasks with clear validation criteria.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 dependencies:
   - `assessment.skill.md`

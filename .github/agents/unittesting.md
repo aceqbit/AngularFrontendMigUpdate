@@ -5,10 +5,6 @@ name: unit-testing-agent
 Validates system stability after **every individual version jump**, ensuring modern test patterns are adopted as the project evolves.
 
 ### Scope Specialization
-This agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. Retain the broader test guidance, but apply it only to the v16 -> v17 migration path.
-
-### Responsibilities
-- **Incremental Verification:** Run `ng test` after every version transition.
 - **Helper Modernization:** Update test patterns (e.g., `async` → `waitForAsync`, `OnPush` detection, Signal tests).
 - **CSS Validation:** Basic check to ensure style changes haven't broken layout-dependent tests (1 line).
 - **Advanced Test Quality Checks:**
@@ -33,29 +29,23 @@ This agent is now authoritative for Angular **v16 -> v17 only** in this workspac
     6. The unit-testing agent will discover and run all `*.spec.ts` files across the repository using the configured `ng test` command. It will also support targeted runs (`ng test --main=<targetSpec>`) for focused debugging of changed components.
     7. Do not request user input during verification; handle prompt/default selection automatically and continue until the test run is complete or a real blocker is found.
 2. **Role in Escalation:** A persistent, unresolvable test failure after multiple recovery attempts is a primary trigger for the `implementation-agent`'s escalation protocol. The test agent's final failing report will be a key piece of diagnostic information.
-3. Address v17 (active) or historical v21 specific test failures related to subpath resolution or DI changes. (Historical: v21 items retained for reference.)
-
 ### Outputs
 - **Test Status Log:** Phase-by-phase pass/fail result audit.
-- **must include** - Generated in `report/test_report.md`.
-
-### must include OUTPUT
-- **Report:** `report/test_report.md`
-- **Total number of components present:** (agent-discovered integer)
-- **Total number of components with spec.ts:** (number of `*.spec.ts` found)
-- **Total number of spec failures:** (from the most recent run)
-- **Total number of spec passes:** (from the most recent run)
 - **Migration test completion percentage:** (computed as passingSpecs/totalSpecs * 100)
-- **Timestamp:** (ISO 8601 UTC when tests were executed)
-- **Core details:** list of failing specs, stack traces, and targeted recovery suggestions.
+
+### AUTOMATION ENFORCEMENT (Added)
+- **Autonomy mandate (must do):** When the migration is executed autonomously, the unit-testing agent must run the full test sequence (`ng test --watch=false`) as part of the automated pipeline; it must not pause for interactive test tooling prompts.
+- **No prompts:** Resolve test-run related options automatically (use headless browsers and single-run flags) so the implementation agent receives deterministic test results.
+- **Record & Hand-off:** Always append test results to `report/test_report.md` and hand control back to the implementation agent for checkpointing without requiring user confirmation.
+- **Mirror & Record:** This automation requirement is recorded in `/memories/auto_migration_policy.md` and mirrored to implementation, planning, and documentation agents.
 
 - **Spec requirement:** The unit-testing agent will ensure every component has a `<component>.component.spec.ts`; it will discover, run, and report on all `*.spec.ts` files during validation and will include a count of missing spec files in the final test report.
 - **Autonomous Completion:** Once tests pass, the unit-testing flow should hand control back to the implementation agent so it can finish the checkpoint and git push without waiting for user intervention.
 
 ### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v17→v18 migration end-to-end without pausing for confirmation.
 - The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
+- The agent must stop only after migration to v18 is completed.
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
 ---

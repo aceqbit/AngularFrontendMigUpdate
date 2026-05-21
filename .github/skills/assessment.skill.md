@@ -7,12 +7,12 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Assessment
 description: >
-  Analyzes an Angular project to assess its readiness for the v16 -> v17 migration.
+  Analyzes an Angular project to assess its readiness for the v17 -> v18 migration.
   Identifies legacy patterns, dependency issues, and configuration problems that could block the upgrade.
   Generates a detailed assessment report as the foundation for the planning phase.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 tasks:
   - task: Analyze `package.json` for outdated `@angular/*` packages and third-party dependencies.

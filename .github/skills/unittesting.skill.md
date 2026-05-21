@@ -7,7 +7,7 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Unit Testing
 description: >
-  Manages and executes unit tests to keep the Angular v16 -> v17 migration stable.
+  Manages and executes unit tests to keep the Angular v17 -> v18 migration stable.
   Updates tests for the active migration target and verifies that all tests pass.
 
 dependencies:

@@ -7,11 +7,11 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Implementation
 description: >
-  Executes the v16 -> v17 migration plan by applying code and configuration changes step-by-step.
+  Executes the v17 -> v18 migration plan by applying code and configuration changes step-by-step.
   Handles all file modifications, dependency updates, and build validations for the active migration target.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 dependencies:
   - `planning.skill.md`
@@ -28,7 +28,7 @@ tasks:
 
   - task: Update dependencies.
     instructions:
-      - Run `ng update` or `npm install` to update Angular and third-party packages as defined in the v16 -> v17 plan.
+      - Run `ng update` or `npm install` to update Angular and third-party packages as defined in the v17 -> v18 plan.
       - Use `--force` or `--legacy-peer-deps` only when explicitly instructed by the plan.
 
   - task: Validate each step.

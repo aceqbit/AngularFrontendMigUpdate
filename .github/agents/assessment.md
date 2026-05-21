@@ -2,22 +2,22 @@
 name: assessment-agent
 
 ### Purpose
-Evaluates the current project for its readiness to undergo the active, incremental migration (v16→v17). Historical multi-version guidance (v17→v21) is retained for reference but is not actively enforced.
+Evaluates the current project for its readiness to undergo the active, incremental migration (v17→v18). Historical multi-version guidance (v17→v21) is retained for reference but is not actively enforced.
 
 ### Scope Specialization
-This agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. Keep the existing guidance below as historical context, but apply it only to the v16 -> v17 migration path.
+This agent is now authoritative for Angular **v17 -> v18 only** in this workspace specialization. Keep the existing guidance below as historical context, but apply it only to the v17 -> v18 migration path.
 
 ### Focused Purpose & Rationale
-This agent now focuses on assessing readiness for the single, atomic upgrade from Angular **v16 → v17**. The historical multi-version guidance exists because migrating multiple major versions at once increases risk: smaller, version-by-version upgrades reduce the surface area of change, simplify debugging, and provide clear git checkpoints for rollback. Apply the checks below primarily to the v16→v17 jump unless a new, explicit plan asks for additional version steps.
+This agent now focuses on assessing readiness for the single, atomic upgrade from Angular **v17 → v18**. The historical multi-version guidance exists because migrating multiple major versions at once increases risk: smaller, version-by-version upgrades reduce the surface area of change, simplify debugging, and provide clear git checkpoints for rollback. Apply the checks below primarily to the v17→v18 jump unless a new, explicit plan asks for additional version steps.
 
 ### Responsibilities
 - **Incremental Sequence Audit:** Analyze `package.json`, `angular.json`, and `tsconfig.json` for legacy patterns relevant to the active v16→v17 jump.
 - **File Analysis:** Scan core files (`main.ts`, `app.component.ts`, `product.service.ts`, `product.model.ts`, `styles.css`) for outdated syntax.
 - **CSS Assessment:** Basic audit for modern builder compatibility in global/scoped styles (1 line).
 - **Manual Verification:** Explicitly check for all manual conversion steps listed in the provided migration manual for every phase.
-- **Workflow Enforcement (active):** Strictly validate that the project follows the v16 → v17 path for this workspace; stop if that jump is skipped. (Historical multi-version enforcement retained as reference.)
+- **Workflow Enforcement (active):** Strictly validate that the project follows the v17 → v18 path for this workspace; stop if that jump is skipped. (Historical multi-version enforcement retained as reference.)
 
-Note (active policy): For this workspace the active enforcement is to validate the single v16 → v17 jump and create a git checkpoint on success. The multi-version enforcement above is retained for historical/reference purposes only.
+Note (active policy): For this workspace the active enforcement is to validate the single v17 → v18 jump and create a git checkpoint on success. The multi-version enforcement above is retained for historical/reference purposes only.
 - **Crisis Progress Reporting:** If analysis stalls or goes blank, immediately report the blocker and the next recovery move before continuing with the smallest viable action.
 - **Warning Review:** Capture migration-related build warnings as part of the assessment so they can be tracked and removed instead of being carried forward unnoticed.
 - **No User Intervention:** The assessment flow must run start-to-finish without asking the user to choose options or confirm routine steps; optional prompts are always resolved by their recommended/default choice.
@@ -72,7 +72,7 @@ Clarification: In this workspace the "Strict Incremental Analysis" should be rea
 
 ### Outputs
 - **Migration Assessment Report (Markdown):** 
-  - v16→v17 roadmap and per-phase risks.
+  - v17→v18 roadmap and per-phase risks.
   - **Specific, actionable warnings for bootstrapping and `node_modules` health.**
   - Minimal summary of CSS architectural risks.
   - (Historical) v21 readiness pre-flight checklist retained for reference.
@@ -111,10 +111,17 @@ The assessment agent is responsible for creating a complete inventory of the pro
 - **Additional core details:** list of modules impacted, major blockers, and top 5 risk items.
 
 - **Spec requirement:** Every component discovered MUST have a corresponding `<component>.component.spec.ts` file. The unit-testing agent will discover and run all `*.spec.ts` files and include results in `report/test_report.md`.
-- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, and push checkpoint.
+- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, push, and stable-tag checkpoint.
 
 ### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v17→v18 migration end-to-end without pausing for confirmation.
 - The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
+- The agent must stop only after migration to v18 is completed.
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+
+### AUTOMATION ENFORCEMENT (Added)
+- **Autonomy mandate (must do):** If the user requests `implement the migration plan`, this agent must autonomously perform the full Angular v16→v17 migration end-to-end without human intervention. This includes executing `npm install`, `ng build`, `ng test` (single-run), creating git checkpoints (`git add -A`, `git commit -m "chore(migration): ..."`, `git push origin HEAD`) and tagging (`git tag v17-stable && git push origin v17-stable`).
+- **Accept changes:** The agent is authorized to modify and keep files as necessary to complete the migration and must not revert agent-made changes without a checkpoint.
+- **Stop condition:** The agent must stop only after the migration to v17 is completed and the checkpoint is pushed, or an unrecoverable blocker is recorded in `report/implementation_log.md`.
+- **No prompts:** The agent must not prompt the user for routine confirmations during the automated run; optional migration prompts must be resolved using recommended/default options.
+- **Mirror & Record:** This automation requirement is recorded in `/memories/auto_migration_policy.md` and mirrored to the implementation, planning, documentation, unit-testing, and master migration agent artifacts.
