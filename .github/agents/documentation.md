@@ -1,3 +1,6 @@
+### Autonomous Invocation (Append Only)
+- When `implement the migration plan` is invoked, the Documentation Agent MUST continuously record the migration steps and final outcomes without requesting user input. It must capture the progress update: "package files updated and timer-based components fixed to trigger change detection" and ensure this appears in `docs/documentation.md` and `report/implementation_log.md`.
+- The Documentation Agent should also verify that the final `report/migration_report.md` documents the commit hash and tag (`v21-stable`) created by the Implementation Agent.
 ## SECTION 6: DOCUMENTATION AGENT
 name: documentation-agent
 

@@ -43,6 +43,11 @@ Constructs a focused migration roadmap for the Angular 20 → 21 upgrade.
 ### NOTE: Skill/Memory Utilization Cleanup
 - The planning agent should not propagate internal skill/memory usage details into the master plan or public-facing plan files. If internal memory-based annotations exist, summarize them rather than exposing implementation details.
 
+### Autonomous Invocation & Strict Enforcement (Append Only)
+- When `implement the migration plan` is issued, the Planning Agent MUST execute automatically to produce or refresh `plan/migration_v20_to_v21.md` and any required per-component checklists. No user confirmation is allowed.
+- The Planning Agent must record the progress update: "package files updated and timer-based components fixed to trigger change detection" in its planning memory and include the two next-step options (A and B) in the plan metadata.
+- The plan must include a mandatory checkpoint sequence that the Implementation Agent will follow: `npm install`, `ng build`, `ng test -- --watch=false`, `git status`, `git add -A`, `git commit`, `git push`, `git tag v21-stable`, `git push origin v21-stable`.
+
 ### Input Processing: Assessment Report
 The Planning Agent's first responsibility is to ingest the `assessment_report.md`. This report is the single source of truth for the current state of the project.
 

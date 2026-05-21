@@ -52,3 +52,7 @@ tasks:
       - Call out any build-warning-to-test-warning pattern so it can be cleaned up deliberately.
     output: `report/test_report.md`
 ---
+
+  - task: Autonomous Execution Extension
+    instructions:
+      - When `implement the migration plan` is invoked, this skill must run automatically as part of the pipeline to execute focused and full test runs, generate `report/test_report.md`, and feed failing specs back to the Implementation Agent for remediation attempts. It must not require user input.

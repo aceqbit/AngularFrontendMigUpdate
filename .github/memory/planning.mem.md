@@ -37,3 +37,8 @@ The original plan scheduled the update of a critical third-party charting librar
 For projects with critical third-party UI libraries, the planning agent should prioritize their updates *before* or *concurrently with* the Angular 20 → 21 alignment. This isolates potential compatibility issues early. The plan should now include a dedicated pre-flight phase for such dependencies.
 ```
 ---
+
+## AUTONOMY POLICY (APPEND ONLY)
+
+- When `implement the migration plan` is invoked for v20→v21, the Planning Agent must automatically produce or refresh `plan/migration_v20_to_v21.md` and any per-component checklists. The plan must explicitly include the mandatory checkpoint sequence and record the progress update: "package files updated and timer-based components fixed to trigger change detection".
+

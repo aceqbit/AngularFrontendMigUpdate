@@ -33,4 +33,8 @@ Validates system stability after the Angular 20 → 21 migration, ensuring moder
 ### NOTE: Skill/Memory Utilization Cleanup
 - The test agent should not include low-level memory or skill operational logs in the public test report. Summarize test failures and their suggested fixes in `report/test_report.md` and keep internal debug output in `report/implementation_log.md`.
 
+### Autonomous Invocation (Append Only)
+- When `implement the migration plan` is invoked, the Unit Testing Agent MUST run automatically as part of the pipeline, execute the test sequence (`ng test -- --watch=false` or targeted spec runs), and save the results to `report/test_report.md` without prompting the user.
+- The Unit Testing Agent must include the progress update: "package files updated and timer-based components fixed to trigger change detection" in its output and must feed failing specs back to the Implementation Agent for automatic remediation attempts.
+
 ---

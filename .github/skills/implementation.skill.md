@@ -64,3 +64,12 @@ tasks:
       - After a version jump completes, log the git status, commit, and push result before the next step starts.
     output: `report/implementation_log.md`
 ---
+
+# Autonomous Execution Extension (Append Only)
+- This skill must support a fully autonomous `implement the migration plan` invocation that:
+  - Runs Assessment and Planning automatically if not already executed.
+  - Applies and persists code changes to the workspace.
+  - Runs `npm install`, `ng build --configuration=production`, and `ng test -- --watch=false`.
+  - Creates a git checkpoint and pushes: `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push origin HEAD`, `git tag v21-stable`, `git push origin v21-stable`.
+  - Resolves optional CLI prompts using the recommended/default option without asking the user.
+  - Records all steps, outputs, and final commit/tag in `report/implementation_log.md`.

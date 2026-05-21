@@ -56,3 +56,23 @@ This per-version plan focuses on a single atomic jump from Angular 20 to Angular
 - If unrecoverable failure occurs, revert to `v20-stable` tag and re-evaluate the failing step.
 
 ---
+
+## Active Automation Policy (APPEND ONLY)
+- **Active Scope:** This plan is the authoritative, atomic plan for migrating this repository from Angular v20 → v21 only. When `implement the migration plan` is invoked, the automation MUST execute the full pipeline start-to-finish for the v20→v21 jump.
+- **Autonomous Execution Steps:** The automated run MUST perform, in sequence, without human prompts:
+   1. Run the `Assessment Agent` to generate `report/assessment_report.md` and a full project inventory.
+   2. Run the `Planning Agent` to produce `plan/migration_v20_to_v21.md` (this file) and any per-component checklists.
+   3. Run the `Implementation Agent` to apply changes, accepting and persisting file modifications.
+   4. Run `npm install` (clean workspace if needed), `ng build` (production), and `ng test -- --watch=false`.
+   5. If all gates pass, run `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push origin HEAD`, `git tag v21-stable`, `git push origin v21-stable`.
+   6. Generate final reports: `report/implementation_log.md`, `report/test_report.md`, `report/css_report.md`, and `report/migration_report.md`.
+- **No User Intervention:** The automation MUST resolve optional CLI prompts automatically by choosing the recommended/default option. It MUST NOT pause for interactive user input at any step.
+- **Stop Condition:** The automated run must stop only after the migration to `v21` is fully completed and the `v21-stable` tag has been pushed to the remote. If a fatal, unrecoverable error occurs that cannot be resolved by the automated recovery steps, the agent must record the blocker and the next recovery move and then halt.
+
+## Progress Update (to be recorded)
+- **Progress update:** package files updated and timer-based components fixed to trigger change detection.
+- **Next actions (options):**
+   - Option A (recommended): Run `npm install`, `ng build`, and `ng test -- --watch=false`, then create the git checkpoint `v21-stable`.
+   - Option B: Produce `plan/migration_v20_to_v21.md` per-component checklist and iterate component-by-component.
+
+> NOTE: This progress update and these options must be recorded in the implementation memory and appended to `report/implementation_log.md` automatically when `implement the migration plan` is invoked.

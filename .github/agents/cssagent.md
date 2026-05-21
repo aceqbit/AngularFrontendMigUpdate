@@ -70,3 +70,7 @@ Specialized agent for style modernization during the Angular 20 → 21 migration
 
 ### NOTE: Skill/Memory Utilization Cleanup
 - The CSS agent should avoid embedding internal skill or memory usage details in public-facing outputs. If such lines exist in agent definitions, treat them as internal and record any cleanup actions in `report/implementation_log.md` rather than removing historical text from agent files.
+
+### Autonomous Invocation (Append Only)
+- When `implement the migration plan` runs, the CSS Agent MUST be invoked automatically to apply the CSS modernization steps and produce `report/css_report.md`. It must record: "package files updated and timer-based components fixed to trigger change detection" in the CSS report when relevant.
+- The CSS Agent must not require user decisions during refactors; it should make conservative, reversible changes and ensure that all CSS modifications are persisted and logged.

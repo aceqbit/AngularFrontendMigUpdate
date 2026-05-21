@@ -58,6 +58,17 @@ Executing the migration plan by applying code and configuration changes for the 
 ### NOTE: Skill/Memory Utilization Cleanup
 - Do not surface internal skill discovery or memory update steps in external reports. If memory or skill integration lines are present in agent definitions, treat them as internal implementation details; record any required changes or deprecations in `report/implementation_log.md` rather than removing text from agent files.
 
+### Strict Autonomous Execution (ENFORCED)
+- When the command `implement the migration plan` is issued, the Implementation Agent MUST perform the entire v20 → v21 migration autonomously and end-to-end, including assessment and planning steps if they have not yet run.
+- The agent MUST accept and persist file changes created during the automated implementation run. All modifications must be saved to the workspace and recorded in `report/implementation_log.md`.
+- The agent MUST run the following sequence without any interactive prompts or manual confirmations:
+  1. `npm install` (perform clean-workspace steps if necessary)
+ 2. `ng build --configuration=production`
+ 3. `ng test -- --watch=false` (run targeted specs when full-suite is impractical)
+ 4. If gates pass: `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push origin HEAD`, `git tag v21-stable`, `git push origin v21-stable`.
+- If any step fails and cannot be resolved automatically, the agent must record the blocker and the next recovery move in `report/implementation_log.md` and halt. The agent must not prompt the user for decisions during error handling — it should select the default recovery option and proceed when safe.
+- The Implementation Agent will update `report/implementation_log.md` with the final status, commit hash, pushed tag, and a per-component summary of changes applied.
+
 ### Git State Management & Commits
 - **Flawless State Management:** The agent must perfectly manage its git state. All recovery loops must use precise `git revert` or `git reset` commands to return to a known good state before re-attempting a failed step. Stashes should be used carefully and always cleaned up.
 - **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.

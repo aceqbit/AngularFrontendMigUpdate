@@ -62,4 +62,8 @@ Within this combined framework, the implementation logic is enhanced with greate
 ### NOTE: Skill/Memory Utilization Cleanup
 - The master agent should avoid listing or exposing low-level skill and memory operational logs in the master report. Internal memory/skill traces should remain internal; the master report should reference high-level outputs and file paths only.
 
+### Master Execution Enforcement (Append Only)
+- The Master Migration Agent MUST treat `implement the migration plan` as a single, atomic command that triggers: Assessment → Planning → Implementation → Unit Testing → Documentation in that order, all without user intervention. The Master Agent must ensure the Implementation Agent persists file changes, runs the mandatory validation gates, creates the `v21-stable` git tag when successful, and pushes commits and tags to the remote repository.
+- The Master Agent must not pause for manual confirmations; any optional migration prompts must be auto-resolved using the recommended/default option.
+
 

@@ -34,3 +34,7 @@ This file is the master log for all skills. When a new skill is developed or an 
 - **Description:** Build warnings tied to the migration must be treated as cleanup tasks or explicitly logged follow-ups instead of being ignored.
 - **Reason:** The Angular 20 → 21 migration should not leave unresolved warning debt behind.
 - **Status:** Implemented.
+
+### Mandatory Autonomous Run: `implement the migration plan`
+- **Description:** All skills must support a fully autonomous, start-to-finish execution when `implement the migration plan` is invoked for v20→v21. Skills must accept and persist file changes (where applicable), and must not prompt the user during the run.
+- **Status:** Implemented across skills and agents; the Implementation Agent will create a git checkpoint and push a `v21-stable` tag when the migration completes successfully.
