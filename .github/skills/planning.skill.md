@@ -1,4 +1,10 @@
 ---
+
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Planning
 description: >
   Constructs a detailed, phased plan for the v16 -> v17 migration based on assessment findings.

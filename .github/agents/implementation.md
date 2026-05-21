@@ -19,6 +19,7 @@ This agent will perform implementation work for the single active jump `v16 -> v
 
 Note (active policy): For this workspace the implementation agent will only execute the `v16 -> v17` plan. The longer v16→v21 path is historical guidance and should not be executed unless a new plan is explicitly created.
 - **Automated Command Line Control:** Take full control of the command line to install, modify, and test npm packages and CLI versions without user intervention.
+- **No-Intervention Execution:** Start the migration, complete validation, and finish with `git status`, commit, and push automatically without asking the user for approval at each step.
 - **Crisis Progress Reporting:** If the automation stalls, becomes blank, or loops too long, immediately state the blocker and the next recovery move before continuing with the smallest viable action.
 - **Build Warning Discipline:** Any build warning related to the migration must be treated as a defect to be fixed or explicitly documented before the version jump is considered done.
 
@@ -32,7 +33,8 @@ Note (active policy): For this workspace the implementation agent will only exec
      - **Build Failure:** If a build fails with a known error pattern (e.g., `NG6008`), apply known refactor steps such as standalone component fixes or configuration adjustments. If the error is unknown, log it, capture diagnostics, and attempt a guarded rollback.
      - **CLI Errors:** Log all CLI migration tool failures.
      - **Asset Mapping:** If dev server fails, verify style/script links in `angular.json` for invalid entries.
-    - **Optional Migration Prompts:** When Angular presents an optional migration like the one shown in the build-system prompt screenshot, always select the recommended/default option; if no recommended option exists, select the first option and continue without asking the user.
+     - **Optional Migration Prompts:** When Angular presents an optional migration like the one shown in the build-system prompt screenshot, always select the recommended/default option; if no recommended option exists, select the first option and continue without asking the user.
+     - **Autonomous Finish:** After validation passes, immediately run `git status`, create the commit, and push the checkpoint before any further migration work.
    - Run `ng build` to verify every individual jump.
 2. Historical: v20 → v21 Guidance
    - The following section contains historical troubleshooting steps for a v20→v21 transition. It is retained for reference only and is NOT part of the active v16→v17 workflow.
@@ -53,6 +55,7 @@ Note (active policy): For this workspace the implementation agent will only exec
 - **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
 - **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.
 - **Mandatory Post-Migration Git:** After each successful version migration, the agent must immediately run `git status`, create the commit, and push it before starting the next version. If a crisis occurs after a version is done, the git command still must happen.
+- **Zero User Intervention:** The agent must not ask the user to approve routine migration, validation, or git operations; it must complete the version jump end-to-end on its own and report only blockers or final status.
 - **Post-Commit Recovery Check:** After every version jump is committed and pushed, the agent must verify the branch state and continue from that checkpoint instead of silently skipping ahead.
 
 ### must include OUTPUT
@@ -67,4 +70,10 @@ Note (active policy): For this workspace the implementation agent will only exec
 - **Core details:** list of applied patches, rollbacks performed, and failure reasons for any halted tasks.
 
 - **Spec requirement:** Implementation steps MUST ensure that for every component modified or created, a corresponding `<component>.component.spec.ts` exists; the unit-testing agent will discover and run all `*.spec.ts` as part of validation.
+
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
