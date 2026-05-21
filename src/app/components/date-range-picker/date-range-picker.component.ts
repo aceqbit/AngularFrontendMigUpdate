@@ -13,11 +13,10 @@ interface MonthView {
 }
 
 @Component({
-  selector: 'app-date-range-picker',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './date-range-picker.component.html',
-  styleUrls: ['./date-range-picker.component.css']
+    selector: 'app-date-range-picker',
+    imports: [CommonModule],
+    templateUrl: './date-range-picker.component.html',
+    styleUrls: ['./date-range-picker.component.css']
 })
 export class DateRangePickerComponent implements OnInit {
   startDate: Date | null = null;

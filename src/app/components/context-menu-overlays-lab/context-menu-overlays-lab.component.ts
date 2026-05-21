@@ -10,11 +10,10 @@ interface MenuCard {
 }
 
 @Component({
-  selector: 'app-context-menu-overlays-lab',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './context-menu-overlays-lab.component.html',
-  styleUrls: ['./context-menu-overlays-lab.component.css']
+    selector: 'app-context-menu-overlays-lab',
+    imports: [CommonModule],
+    templateUrl: './context-menu-overlays-lab.component.html',
+    styleUrls: ['./context-menu-overlays-lab.component.css']
 })
 export class ContextMenuOverlaysLabComponent {
   cards: MenuCard[] = [

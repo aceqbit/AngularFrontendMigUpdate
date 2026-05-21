@@ -16,11 +16,10 @@ interface Connection {
 }
 
 @Component({
-  selector: 'app-workflow-designer',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './workflow-designer.component.html',
-  styleUrls: ['./workflow-designer.component.css']
+    selector: 'app-workflow-designer',
+    imports: [CommonModule],
+    templateUrl: './workflow-designer.component.html',
+    styleUrls: ['./workflow-designer.component.css']
 })
 export class WorkflowDesignerComponent implements OnInit {
   nodes: Node[] = [];

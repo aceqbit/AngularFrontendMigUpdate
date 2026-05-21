@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-chips-input-lab',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './chips-input-lab.component.html',
-  styleUrls: ['./chips-input-lab.component.css']
+    selector: 'app-chips-input-lab',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './chips-input-lab.component.html',
+    styleUrls: ['./chips-input-lab.component.css']
 })
 export class ChipsInputLabComponent {
   chipDraft = '';

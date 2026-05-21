@@ -11,11 +11,10 @@ interface TreeNode {
 }
 
 @Component({
-  selector: 'app-tree-view-large',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './tree-view-large.component.html',
-  styleUrls: ['./tree-view-large.component.css']
+    selector: 'app-tree-view-large',
+    imports: [CommonModule],
+    templateUrl: './tree-view-large.component.html',
+    styleUrls: ['./tree-view-large.component.css']
 })
 export class TreeViewLargeComponent implements OnInit {
   treeData: TreeNode[] = [];

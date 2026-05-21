@@ -15,11 +15,10 @@ interface ScheduledEvent {
 }
 
 @Component({
-  selector: 'app-event-scheduler',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './event-scheduler.component.html',
-  styleUrls: ['./event-scheduler.component.css']
+    selector: 'app-event-scheduler',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './event-scheduler.component.html',
+    styleUrls: ['./event-scheduler.component.css']
 })
 export class EventSchedulerComponent implements OnInit {
   events: ScheduledEvent[] = [];

@@ -28,11 +28,10 @@ interface TabRecord {
 }
 
 @Component({
-  selector: 'app-settings-panel',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './settings-panel.component.html',
-  styleUrls: ['./settings-panel.component.css']
+    selector: 'app-settings-panel',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './settings-panel.component.html',
+    styleUrls: ['./settings-panel.component.css']
 })
 export class SettingsPanelComponent implements OnInit {
   activeTab: string = 'general';

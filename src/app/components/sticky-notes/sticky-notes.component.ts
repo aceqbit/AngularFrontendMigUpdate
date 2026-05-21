@@ -19,11 +19,10 @@ interface Note {
 }
 
 @Component({
-  selector: 'app-sticky-notes',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './sticky-notes.component.html',
-  styleUrls: ['./sticky-notes.component.css']
+    selector: 'app-sticky-notes',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './sticky-notes.component.html',
+    styleUrls: ['./sticky-notes.component.css']
 })
 export class StickyNotesComponent implements OnInit {
   notes: Note[] = [];

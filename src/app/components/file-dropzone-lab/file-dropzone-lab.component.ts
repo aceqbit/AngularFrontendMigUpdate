@@ -10,11 +10,10 @@ interface DropFile {
 }
 
 @Component({
-  selector: 'app-file-dropzone-lab',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './file-dropzone-lab.component.html',
-  styleUrls: ['./file-dropzone-lab.component.css']
+    selector: 'app-file-dropzone-lab',
+    imports: [CommonModule],
+    templateUrl: './file-dropzone-lab.component.html',
+    styleUrls: ['./file-dropzone-lab.component.css']
 })
 export class FileDropzoneLabComponent implements OnDestroy {
   files: DropFile[] = [];

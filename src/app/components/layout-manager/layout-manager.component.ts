@@ -21,16 +21,15 @@ interface Widget {
 }
 
 @Component({
-  selector: 'app-layout-manager',
-  standalone: true,
-  imports: [
-    CommonModule,
-    DashboardWidgetsComponent,
-    CalendarComponent,
-    AdvancedFormStepperComponent,
-  ],
-  templateUrl: './layout-manager.component.html',
-  styleUrls: ['./layout-manager.component.css']
+    selector: 'app-layout-manager',
+    imports: [
+        CommonModule,
+        DashboardWidgetsComponent,
+        CalendarComponent,
+        AdvancedFormStepperComponent,
+    ],
+    templateUrl: './layout-manager.component.html',
+    styleUrls: ['./layout-manager.component.css']
 })
 export class LayoutManagerComponent implements OnInit {
   widgets: Widget[] = [];

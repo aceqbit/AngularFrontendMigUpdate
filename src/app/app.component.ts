@@ -18,29 +18,28 @@ import { FileDropzoneLabComponent } from './components/file-dropzone-lab/file-dr
 import { ContextMenuOverlaysLabComponent } from './components/context-menu-overlays-lab/context-menu-overlays-lab.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    LayoutManagerComponent,
-    DashboardWidgetsComponent,
-    WorkflowDesignerComponent,
-    CalendarComponent,
-    DateRangePickerComponent,
-    EventSchedulerComponent,
-    AutoCompleteComplexComponent,
-    AdvancedFormStepperComponent,
-    TreeViewLargeComponent,
-    StickyNotesComponent,
-    NotificationHubComponent,
-    SettingsPanelComponent,
-    AsyncAutocompleteLabComponent,
-    ChipsInputLabComponent,
-    FileDropzoneLabComponent,
-    ContextMenuOverlaysLabComponent,
-  ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+    selector: 'app-root',
+    imports: [
+        CommonModule,
+        LayoutManagerComponent,
+        DashboardWidgetsComponent,
+        WorkflowDesignerComponent,
+        CalendarComponent,
+        DateRangePickerComponent,
+        EventSchedulerComponent,
+        AutoCompleteComplexComponent,
+        AdvancedFormStepperComponent,
+        TreeViewLargeComponent,
+        StickyNotesComponent,
+        NotificationHubComponent,
+        SettingsPanelComponent,
+        AsyncAutocompleteLabComponent,
+        ChipsInputLabComponent,
+        FileDropzoneLabComponent,
+        ContextMenuOverlaysLabComponent,
+    ],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   activeSection: string = 'dashboard';

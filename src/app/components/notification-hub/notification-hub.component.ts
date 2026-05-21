@@ -12,11 +12,10 @@ interface Notification {
 }
 
 @Component({
-  selector: 'app-notification-hub',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './notification-hub.component.html',
-  styleUrls: ['./notification-hub.component.css']
+    selector: 'app-notification-hub',
+    imports: [CommonModule],
+    templateUrl: './notification-hub.component.html',
+    styleUrls: ['./notification-hub.component.css']
 })
 export class NotificationHubComponent implements OnInit {
   notifications: Notification[] = [];

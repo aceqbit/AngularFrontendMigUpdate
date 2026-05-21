@@ -10,11 +10,10 @@ interface FormStep {
 }
 
 @Component({
-  selector: 'app-advanced-form-stepper',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './advanced-form-stepper.component.html',
-  styleUrls: ['./advanced-form-stepper.component.css']
+    selector: 'app-advanced-form-stepper',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './advanced-form-stepper.component.html',
+    styleUrls: ['./advanced-form-stepper.component.css']
 })
 export class AdvancedFormStepperComponent implements OnInit {
   currentStep = 0;
