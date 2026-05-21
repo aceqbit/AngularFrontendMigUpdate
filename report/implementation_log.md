@@ -16,16 +16,19 @@ Start time: 2026-05-21
 - 2026-05-21: Committed migration changes: commit `0f925a6` (chore: migrate Angular v19→v20).
 - 2026-05-21: Pushed branch `migration/v19-to-20` to remote origin.
 - 2026-05-21: Updated tag `v20-stable` to point at the migration commit and force-pushed the tag to origin.
+- 2026-05-21: Pushed branch `migration/v19-to-20` to remote origin.
+- 2026-05-21: Updated tag `v20-stable` to point at the migration commit and force-pushed the tag to origin.
+- 2026-05-21: Merged `migration/v19-to-20` into `main` (fast-forward to `91afc73`) and pushed `main` to origin.
 
 ## Build & Test Results
 - `ng build --configuration=production`: success with non-blocking warnings (NG8113 unused-component warnings and several CSS budget warnings).
 - `ng test --watch=false`: success — 21/21 specs passed.
 
 ## Git State (excerpt)
-- HEAD: 0f925a6 (chore: migrate Angular v19→v20)
-- Current branch: migration/v19-to-20
-- Remote branch: migration/v19-to-20 (pushed)
-- Tag: v20-stable -> 0f925a6 (forced update)
+-- HEAD: 91afc73 (post-merge main)
+-- Current branch: main
+-- Remote branch: main (updated)
+-- Tag: v20-stable -> 0f925a6
 
 ## Notes & Next Steps
 - Several components emitted compiler warnings about unused declarations in templates — informational and non-blocking.

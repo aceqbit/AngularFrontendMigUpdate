@@ -13,12 +13,12 @@ Date: 2026-05-21
 2. Dependency update: updated `package.json` to target Angular v20 and installed packages with `npm install --legacy-peer-deps` due to peer dependency constraints.
 3. Build: ran `npx ng build --configuration=production` — build succeeded with non-blocking warnings.
 4. Tests: ran `npx ng test --watch=false` — all specs passed (21/21).
-5. Checkpoint: committed and pushed migration changes and updated tag `v20-stable` to point at the migration commit.
+5. Checkpoint: committed and pushed migration changes, updated tag `v20-stable`, merged migration branch into `main`, and pushed `main` to origin.
 
 ## Validation
 - Build: success (output bundles generated, minor warnings)
 - Unit tests: success (21/21)
-- Git: commit `0f925a6` pushed to `migration/v19-to-20`; tag `v20-stable` updated and pushed to origin
+- Git: migration commit `0f925a6` present; `main` fast-forwarded to `91afc73` and pushed to origin; tag `v20-stable` points to the migration commit.
 
 ## Warnings & Notes
 - Several CSS files exceeded configured budgets (informational). These are non-blocking but may warrant future optimization.
@@ -170,3 +170,32 @@ Date: 2026-05-21
 
 ### Agent & Memory Changes
 - The new active scope and strict no-intervention policy have been appended to agent files in `.github/agents/`, and to repository memory entries under `/memories/`. The system is now configured to run `implement the migration plan` autonomously for v19→v20 and create the `v20-stable` checkpoint on success.
+
+---
+
+# Planned Migration: Angular v20 → v21 (Draft)
+
+Date: (to be populated)
+
+## Summary (Draft)
+- Migration target: Angular 20 → 21
+- Plan file: [plan/migration_v20_to_v21.md](plan/migration_v20_to_v21.md)
+- Expected Git checkpoint: `v21-stable`
+
+## Initial Metrics (will be populated by assessment)
+- Total number of components present: (auto-populated)
+- Total number of components migrated: 0 (initial)
+- Migration completion percentage: 0%
+
+## Recommended Sequence (short)
+1. Assessment (inventory + risk list)
+2. Core Angular alignment and TS upgrade
+3. Zone/change-detection fixes (P0)
+4. CSS modernization and asset fixes
+5. Testing, validation, and tag `v21-stable`
+
+## Outputs Expected
+- `report/assessment_report.md`, `report/css_report.md`, `report/implementation_log.md`, `report/test_report.md`, `report/migration_report.md` (final)
+
+## Notes
+- This is a concise, draft section to register the v20→v21 migration in the master migration report. The assessment run will fill concrete numbers and component-level details.

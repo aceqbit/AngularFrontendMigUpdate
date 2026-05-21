@@ -16,3 +16,13 @@ Guiding principles:
 - Flag polling/timer code and async callbacks for explicit change-detection fixes.
 
 See [plan/migration_v17_to_v18.md](plan/migration_v17_to_v18.md) for the full step-by-step checklist, validation gates, rollback instructions, and per-component review list.
+
+---
+
+# Planned Migration: Angular v20 → v21 (Draft)
+
+- Plan file: [plan/migration_v20_to_v21.md](plan/migration_v20_to_v21.md)
+- Purpose: Atomic, single-version jump from Angular 20 to Angular 21.
+- Validation gates: build, tests, and visual smoke checks as described in the plan file.
+
+This entry is a draft index record for the v20→v21 plan. The plan file itself contains the phased steps, validation gates, and rollback guidance required for an autonomous implementation.

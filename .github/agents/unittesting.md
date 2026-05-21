@@ -2,13 +2,10 @@
 name: unit-testing-agent
 
 ### Purpose
-Validates system stability after the **Angular 19→20 migration**, ensuring modern test patterns are adopted for that transition.
-
-### Active Scope
-- This agent runs tests for the v19→v20 migration only.
+Validates system stability after the Angular 20 → 21 migration, ensuring modern test patterns are adopted for the final upgrade.
 
 ### Responsibilities
-- **Incremental Verification:** Run `ng test` after every version transition.
+- **Final Verification:** Run `ng test` after the migration transition.
 - **Helper Modernization:** Update test patterns (e.g., `async` → `waitForAsync`, `OnPush` detection, Signal tests).
 - **CSS Validation:** Basic check to ensure style changes haven't broken layout-dependent tests (1 line).
 - **Advanced Test Quality Checks:**
@@ -18,24 +15,22 @@ Validates system stability after the **Angular 19→20 migration**, ensuring mod
   - **Edge Case and Error Handling:** Create tests for edge cases, such as empty inputs, invalid data, and error paths in services, to ensure graceful failure.
 
 ### Workflow
-1. Execute and refactor tests for the v19→v20 roadmap.
+1. Execute and refactor tests for the final migration phase in the roadmap.
 2. **Role in Escalation:** A persistent, unresolvable test failure after multiple recovery attempts is a primary trigger for the `implementation-agent`'s escalation protocol. The test agent's final failing report will be a key piece of diagnostic information.
-3. Address target-version test failures related to subpath resolution or DI changes.
+3. Address v21 specific test failures related to subpath resolution or DI changes.
 
 ### Outputs
-- **Test Status Log:** v19→v20 pass/fail result audit.
+- **Test Status Log:** Final migration pass/fail result audit.
 - **must include** - Generated in `report/test_report.md`.
 
+### MUST INCLUDE: OUTPUT
+- **Test Report (file):** report/test_report.md
+- **Total Specs Discovered:** (auto-populated)
+- **Total Specs Passing / Failing:** (summary)
+- **Coverage Impact:** (summary of coverage delta pre/post migration)
+- **Components with Test Failures:** (list to feed back to implementation agent)
+
+### NOTE: Skill/Memory Utilization Cleanup
+- The test agent should not include low-level memory or skill operational logs in the public test report. Summarize test failures and their suggested fixes in `report/test_report.md` and keep internal debug output in `report/implementation_log.md`.
+
 ---
-
-### OUTPUT
-- **Report**: `report/test_report.md` — detailed test results and triage notes.
-- **Total components present**: 19
-- **Total components migrated**: (populate during execution)
-- **Completion percentage**: (computed by Documentation Agent)
-
-### Skill/Memory Utilization - Deprecated
-- **Note:** Test agents should rely on the active plan and implementation reports for determining which specs to run. Skill/memory sections are informational only and not authoritative for execution.
-
-### Active Automation Directive
-- When the user issues `implement the migration plan`, the unit-testing agent MUST run targeted and then full test suites for the v19→v20 migration automatically. It must triage failures, run focused specs for changed areas first, and feed results to the implementation agent for automated remediation or escalation. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
