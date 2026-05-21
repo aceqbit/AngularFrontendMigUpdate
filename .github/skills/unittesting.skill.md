@@ -1,14 +1,8 @@
 ---
-
-### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
-- The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
-- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Unit Testing
 description: >
-  Manages and executes unit tests to keep the Angular v17 -> v18 migration stable.
-  Updates tests for the active migration target and verifies that all tests pass.
+  Manages and executes unit tests to ensure the application remains stable throughout the Angular 18 → 19 migration.
+  This skill is responsible for updating tests to be compatible with the target version and verifying that all tests pass.
 
 dependencies:
   - `implementation.skill.md`
@@ -16,7 +10,7 @@ dependencies:
 tasks:
   - task: Update outdated test configurations.
     instructions:
-      - Modify `karma.conf.js` and `tsconfig.spec.json` to align with the new Angular version.
+      - Modify `karma.conf.js` and `tsconfig.spec.json` to align with Angular 19.
       - Update testing libraries like Jasmine and Karma as needed.
     files:
       - `karma.conf.js`
@@ -36,6 +30,13 @@ tasks:
       - If the suite is too heavy or fails across many modules, switch to targeted specs for the changed area first, then retry the full suite.
       - Ensure that the command exits with a zero status code, indicating all tests passed.
       - If a failure affects many modules, start with the smallest changed area and report the next recovery move before re-running the broad suite.
+
+  - task: Test runtime behavior coverage for the 18 → 19 jump.
+    instructions:
+      - For each component that was touched by the migration, verify that targeted tests exist.
+      - Tests should cover the changed behavior with focused assertions and any required async helpers.
+      - Run the tests for the affected components before running the full suite.
+      - Document which components have targeted coverage and their status in the test report.
 
   - task: Generate the Test Report.
     instructions:

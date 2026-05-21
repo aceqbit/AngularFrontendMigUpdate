@@ -1,17 +1,8 @@
 ---
-
-### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
-- The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
-- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Documentation
 description: >
-  Documents the v17 -> v18 migration process, recording all changes, decisions, and outcomes.
-  Ensures project documentation reflects the post-migration state and future developer guidance.
-
-scope:
-  - Angular v17 -> v18 only
+  Documents the Angular 18 → 19 migration process, creating a comprehensive record of all changes, decisions, and outcomes.
+  This skill ensures that the project's documentation is updated to reflect the new, migrated state.
 
 dependencies:
   - `implementation.skill.md`
@@ -32,7 +23,7 @@ tasks:
   - task: Document new architectural patterns and best practices.
     instructions:
       - Identify significant changes made during the migration (e.g., adoption of standalone components, new control flow syntax).
-      - Create a new section in the project's main `README.md` or a dedicated `migration-summary.md` to document the v16 -> v17 changes for future developers.
+      - Create a new section in the project's main `README.md` or a dedicated `migration-summary.md` to document these changes for future developers.
 
   - task: Generate the final documentation.
     instructions:

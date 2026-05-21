@@ -34,3 +34,28 @@
 - **Reviewed components:** 20 total, 20 with matching spec files.
 - **High-risk review focus:** timer/polling components and the larger UI surfaces listed above.
 - **Checkpoint status:** package update and validation complete; git checkpointing remains the final cleanup step.
+
+---
+
+# Planned Migration: Angular v18 → 19 (Draft)
+
+- **Planned Timestamp:** 2026-05-21T12:00:00Z
+
+## Summary Metrics (Initial)
+- **Total number of components present:** 19
+- **Total number of components migrated:** 0
+- **Total number of components pending migration:** 19
+- **Migration completion percentage:** 0%
+- **Spec files present:** (scanned separately) — many components include spec files; planning will verify coverage
+
+## Core Details (Planned)
+- **Primary focus:** dependency alignment to Angular 19, TypeScript/tooling compatibility, and validation gates described in `plan/migration_v18_to_v19.md`.
+- **High-risk modules (first pass):** data-grid, dashboard-widgets, resource-monitor, workflow-designer.
+
+## Planned Actions
+- Create and validate `plan/migration_v18_to_v19.md` (already generated).
+- Run assessment to build the project inventory and targeted risk checklist for v18→v19.
+- Schedule CSS modernization and component-level verification as described in the plan.
+
+## Notes
+- This is an initial, draft section for the upcoming v18→v19 migration. The assessment agent will populate concrete numbers, per-component status, and a migration timeline when it runs.

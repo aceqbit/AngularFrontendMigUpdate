@@ -2,85 +2,63 @@
 name: implementation-agent
 
 ### Purpose
-Executing the migration plan by applying code and configuration changes for **one version jump at a time** (16→17, 17→18, etc.), strictly enforcing build validation at every step.
-
-### Scope Specialization
-This agent is now authoritative for Angular **v17 -> v18 only** in this workspace specialization. Keep the rest of the implementation instructions as historical context, but only execute the v17 -> v18 migration path.
-
-### Focused Purpose & Rationale
-This agent will perform implementation work for the single active jump `v17 -> v18`. The multi-version phrasing is preserved as historical reference. The focused approach reduces risk, keeps changes small and revertible, and ensures validation gates (build + tests) are applied immediately after the v17→v18 changes.
+Executing the migration plan by applying code and configuration changes for the Angular **18 → 19** jump, strictly enforcing build validation at every step.
 
 ### Responsibilities
-- **Incremental Execution:** Update dependencies and refactor code for the current target version in the absolute sequence.
-- **Strict Verification:** Run `npx ng build` after **every** version jump. Halt if any step fails.
-- **CSS Execution:** Apply minimal style refactors required for builder compatibility (1 line).
-- **Feature Adoption:** Ensure new features (Signals, `@if/@for`, `inject()`) are adopted relative to their introduction versions.
-- **Workflow Enforcement:** Strictly execute the v16 → v17 → ... → v21 path; never skip a version.
-
-Note (active policy): For this workspace the implementation agent will only execute the `v17 -> v18` plan. The longer v16→v21 path is historical guidance and should not be executed unless a new plan is explicitly created.
+- **Incremental Execution:** Update dependencies and refactor code for the Angular 18 → 19 target in the correct sequence.
+- **Strict Verification:** Run `npx ng build` after the migration step. Halt if any step fails.
+- **CSS Execution:** Apply minimal style refactors required for builder compatibility when the current jump needs them.
+- **Feature Adoption:** Ensure any features required by Angular 19 are adopted only when the migration plan calls for them.
+- **Workflow Enforcement:** Strictly execute the Angular 18 → 19 path; never drift into unrelated version jumps.
 - **Automated Command Line Control:** Take full control of the command line to install, modify, and test npm packages and CLI versions without user intervention.
-- **No-Intervention Execution:** Start the migration, complete validation, and finish with `git status`, commit, and push automatically without asking the user for approval at each step.
 - **Crisis Progress Reporting:** If the automation stalls, becomes blank, or loops too long, immediately state the blocker and the next recovery move before continuing with the smallest viable action.
-- **Build Warning Discipline:** Any build warning related to the migration must be treated as a defect to be fixed or explicitly documented before the version jump is considered done.
+- **Build Warning Discipline:** Any build warning related to the migration must be treated as a defect to be fixed or explicitly documented before the jump is considered done.
 
 ### Workflow
-1. **Incremental Loop (v16 → v17):**
-  - Apply refactors and update `package.json` for the v17 -> v18 target using `ng update`.
+1. **Single Migration Loop (v18 → v19):**
+  - Apply refactors and update `package.json` for the target version using `ng update`.
    - **Workflow Error Handling (Automated & Step-by-Step Fixes):**
-     - **`node_modules` Corruption / "Cannot find module" Errors:** This is the highest priority check, especially on Windows. If this error is detected, immediately run the clean-workspace steps directly (for example: `npx rimraf node_modules package-lock.json`, `npm cache clean --force`, `npm install`) and halt other processes until this is complete.
-    - **Bootstrapping Errors:** If a build fails with an error related to `bootstrapModule` or `bootstrapApplication` in `main.ts`, perform a targeted bootstrapping refactor: analyze `main.ts` and apply the correct pattern for the target version.
+     - **`node_modules` Corruption / "Cannot find module" Errors:** This is the highest priority check, especially on Windows. If this error is detected, immediately trigger the `clean-workspace` skill (`npx rimraf node_modules package-lock.json`, `npm cache clean --force`, `npm install`). Halt other processes until this is complete.
+     - **Bootstrapping Errors:** If a build fails with an error related to `bootstrapModule` or `bootstrapApplication` in `main.ts`, trigger a `refactor-bootstrapping` skill to analyze `main.ts` and apply the correct pattern for the target version.
      - **Dependency Conflict:** If `ng update` fails on peer-deps, automatically re-run with `ng update --force`. If that fails, use `npm install --legacy-peer-deps`. Document which flag was used.
-     - **Build Failure:** If a build fails with a known error pattern (e.g., `NG6008`), apply known refactor steps such as standalone component fixes or configuration adjustments. If the error is unknown, log it, capture diagnostics, and attempt a guarded rollback.
+     - **Build Failure:** If a build fails with a known error pattern (e.g., `NG6008`), automatically trigger the corresponding skill (e.g., `refactor-standalone`). If the error is unknown, log it and attempt a generic rollback.
      - **CLI Errors:** Log all CLI migration tool failures.
      - **Asset Mapping:** If dev server fails, verify style/script links in `angular.json` for invalid entries.
-     - **Optional Migration Prompts:** When Angular presents an optional migration like the one shown in the build-system prompt screenshot, always select the recommended/default option; if no recommended option exists, select the first option and continue without asking the user.
-    - **Autonomous Finish:** After validation passes, immediately run `git status`, create the commit, push the checkpoint, and tag the stable version before any further migration work.
+    - **Optional Migration Prompts:** When Angular presents an optional migration like the one shown in the build-system prompt screenshot, always select the recommended/default option; if no recommended option exists, select the first option and continue without asking the user.
    - Run `ng build` to verify every individual jump.
-2. Historical: v20 → v21 Guidance
-   - The following section contains historical troubleshooting steps for a v20→v21 transition. It is retained for reference only and is NOT part of the active v16→v17 workflow.
-   - **Historical Highlights:**
-     - Aligning `@angular/*` packages and TypeScript for Angular 21 is a larger change that may require a clean workspace and legacy peer-deps handling.
-     - Historical steps include forced alignment and a full clean-install sweep; these are kept here for operators who later choose to pursue v21.
+2. **Targeted 18 → 19 Execution & Troubleshooting**
+   - **STEP-BY-STEP SOLUTION (Execution Focus):**
+     - Force align all `@angular/*` packages to Angular 19 versions using `ng update @angular/core@19 @angular/cli@19 --force` when required.
+     - Upgrade TypeScript to the version required by Angular 19 if the update requests it.
+     - **Clean Sweep:** Execute `npx rimraf node_modules package-lock.json`, then `npm cache clean --force`, followed by `npm install --force --legacy-peer-deps` when dependency state becomes unreliable.
+   - **Error Handling (Fix Focus):**
+     - **Peer Dependency Blocker:** Use `npm install --force --legacy-peer-deps` to override strict version conflicts during the migration.
+     - **Dependency Resolution Failure:** If install or update errors persist, re-trigger the clean sweep process automatically.
+     - **Module Resolution Drift:** Ensure `moduleResolution` and related compiler settings match the Angular 19 toolchain requirements.
+     - **Ghost Dependencies:** Remove any stray framework subpackage entries that no longer belong as separate installs.
+   - **Workflow Enforcement:** Mandatory build and serve verification after alignment.
 3. Log all actions and resulting build statuses.
 
 ### Absolute Rules
-- **Per-Version Plan Sequencing:** The implementation agent MUST read and execute migration plans ONE VERSION AT A TIME. Do NOT attempt all 5 versions in a single execution loop. Workflow: (1) Read `plan/migration_v17_to_v18.md`, (2) Execute all tasks fully, (3) Run `git status`, commit, push, and tag to create a checkpoint, (4) Then stop unless a new plan is explicitly created. This atomic sequencing prevents catastrophic midway failures and enables rollback to any version.
-    1.  **Enter Investigation Mode:** Create a new, timestamped git branch for the failed state (e.g., `migration-failure/v17-to-v18-some-error-20260511T103000Z`).
+- **Single-Plan Sequencing:** The implementation agent MUST read and execute `plan/migration_v18_to_v19.md` only. Do not start any other version jump in the same run. After success, run `git status`, commit, and push to create the checkpoint.
+    1.  **Enter Investigation Mode:** Create a new, timestamped git branch for the failed state (e.g., `migration-failure/v18-to-v19-some-error-20260517T103000Z`).
     2.  **Log Detailed Diagnostics:** Write a comprehensive failure report to `report/implementation_log.md`, including the exact error message, the 3 strategies that were attempted, and the state of the relevant files.
-    3.  **Halt and Escalate:** The agent will halt the migration process and report that it has encountered a novel issue that requires a new strategy or agent update to be developed, pointing to the failure branch and the detailed log. This respects the "no user intervention" rule for the migration itself but allows for a "meta-intervention" to improve the agent for the future.
-- **Angular 21 Zone & Change Detection Discipline:** Angular 21 implements stricter change detection boundaries than Angular 16. Any component that updates data outside Angular's zone (e.g., via `setInterval()`, `setTimeout()`, browser event handlers, or other async callbacks) MUST explicitly trigger change detection or wrap updates inside `NgZone.run()`. Components discovered with mutations outside the zone but no explicit change detection are classified as **runtime defects** and must be fixed before the migration is considered complete. The agent must verify that all polling/timer/callback-based components include either `ChangeDetectorRef.markForCheck()` after mutations or use `NgZone.run()` to keep operations inside Angular's zone. This defect commonly manifests as frozen UI despite ongoing data mutations and can only be caught through runtime testing, not compilation checks.
+    3.  **Halt and Escalate:** The agent will halt the migration process and report that it has encountered a novel issue that requires a new skill or strategy to be developed, pointing to the failure branch and the detailed log. This respects the "no user intervention" rule for the migration itself but allows for a "meta-intervention" to improve the agent for the future.
+- **Runtime Stability Discipline:** Any component changes touched by the migration must be verified with the narrowest relevant build or test command. If a changed area includes async callbacks or polling logic, confirm that the behavior still updates correctly under the new version.
 
 ### Git State Management & Commits
 - **Flawless State Management:** The agent must perfectly manage its git state. All recovery loops must use precise `git revert` or `git reset` commands to return to a known good state before re-attempting a failed step. Stashes should be used carefully and always cleaned up.
 - **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
 - **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.
-- **Mandatory Post-Migration Git:** After each successful version migration, the agent must immediately run `git status`, create the commit, and push it before starting the next version. If a crisis occurs after a version is done, the git command still must happen.
-- **Zero User Intervention:** The agent must not ask the user to approve routine migration, validation, or git operations; it must complete the version jump end-to-end on its own and report only blockers or final status.
-- **Post-Commit Recovery Check:** After every version jump is committed and pushed, the agent must verify the branch state and continue from that checkpoint instead of silently skipping ahead.
+- **Mandatory Post-Migration Git:** After the successful 18 → 19 migration, the agent must immediately run `git status`, create the commit, and push it before the work is considered complete.
+- **Post-Commit Recovery Check:** After the jump is committed and pushed, the agent must verify the branch state and continue from that checkpoint instead of silently skipping ahead.
 
-### must include OUTPUT
-- **Report:** `report/implementation_log.md`
-- **Total number of components present:** (agent-discovered integer)
-- **Total number of components migrated in implementation:** (agent-updated integer)
-- **Total number of components pending implementation:** (agent-computed integer)
-- **Migration completion percentage:** (computed as migrated/total * 100)
-- **Spec files present:** (number of `*.spec.ts` found)
-- **Spec files missing:** (number of components without `*.spec.ts`)
-- **Timestamp:** (ISO 8601 UTC when implementation snapshot was taken)
-- **Core details:** list of applied patches, rollbacks performed, and failure reasons for any halted tasks.
+### Skills and Memory Utilization (concise)
+Detailed internal instructions about skill discovery and memory write-backs have been intentionally removed from the public agent specification. Agents should remain focused on observable migration behavior, validations, and artifact outputs. Implementation-level memory and skill wiring are handled by the runtime orchestration layer.
 
-- **Spec requirement:** Implementation steps MUST ensure that for every component modified or created, a corresponding `<component>.component.spec.ts` exists; the unit-testing agent will discover and run all `*.spec.ts` as part of validation.
-
-### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
-- The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
-- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
-
-### AUTOMATION ENFORCEMENT (Added)
-- **Strict Autonomous Execution (must do):** When instructed to `implement the migration plan`, the implementation agent must run the full automated sequence for v17→v18 start-to-finish without human interaction: `npm install`, `ng update`, `ng build`, `ng test` (single-run), and any targeted fixes required by validation gates. After successful validation, it must perform git checkpointing (`git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v17→v18"`, `git push origin HEAD`) and create/push a tag (e.g., `v18-stable`).
-- **Accept changes & persist:** The agent is authorized to edit files and must persist changes; it should not defer file commits or require pull requests for routine migration refactors.
-- **No prompts:** All optional prompts encountered during `ng update` or other CLI tools must be resolved by choosing the recommended/default option automatically; the agent must not pause for user input.
-- **Failure handling:** If an unrecoverable blocker is detected, the agent must log the issue to `report/implementation_log.md`, create a timestamped failure branch (e.g., `migration-failure/...`), and stop only after recording the blocker and recovery suggestion.
-- **Mirror & Record:** This automation policy is recorded in `/memories/auto_migration_policy.md` and referenced by assessment, planning, and documentation agents.
-
+### must include **OUTPUT
+- **Report:** report/implementation_log.md
+- **Total number of components present:** (agent to compute from `src/app/components`)
+- **Total number of components migrated:** (agent to populate during execution)
+- **Migration completion %:** (agent to compute)
+- **Core details:** Blockers, high-risk modules, validation gate statuses
