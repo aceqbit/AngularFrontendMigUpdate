@@ -177,6 +177,9 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - **Standalone Components:** A common error source is the incorrect declaration of standalone components. They must be in the `imports` array of an `NgModule` or the component they are used in, not `declarations`. Plan for a verification step to check this.
 - **Final Report:** The `implementation_log.md` is generated and shows a successful migration.
 
+### Active Automation Directive
+- When the user issues `implement the migration plan`, the planning agent MUST generate or validate the `plan/migration_v19_to_v20.md` per-component checklist and ensure the plan enforces end-to-end autonomous execution. The planning agent must mark required validation gates, git checkpoint steps, and rollback procedures. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
+
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:
 - **Executive Summary:** A high-level overview of the migration goals and timeline.

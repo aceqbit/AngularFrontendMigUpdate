@@ -116,3 +116,29 @@ Date: 2026-05-21
 - Alternative (component-by-component): finalize per-component checklist in `plan/migration_v18_to_v19.md` and implement fixes incrementally, running targeted tests after each change.
 
 These actions and the autonomous execution requirement have been recorded in workspace memory and in agent/skill directives so that an `implement the migration plan` command will run start-to-finish without intermediate user prompts.
+
+## Planned Migration: Angular v19 → v20 (Active)
+
+Date: 2026-05-21
+
+### Summary
+- Migration target: Angular 19 → 20 (active)
+- Progress update: package files updated and timer-based components fixed to trigger change detection (ChangeDetectorRef.markForCheck added where required).
+- Total components present: 19
+
+### Actions Performed / Notes
+1. Assessment and planning files reviewed and updated to focus on v19→v20 only.
+2. Agent directive updates: agents and memory entries were appended to enforce autonomous, end-to-end execution on `implement the migration plan` without user interaction.
+
+### Recommended Next Steps (automatable)
+- Option A (full-run, recommended):
+	1. `npm install`
+	2. `ng build`
+	3. `ng test --watch=false`
+	4. If all gates pass: `git add -A && git commit -m "chore(migration): complete Angular v20" && git push origin HEAD && git tag v20-stable && git push origin v20-stable`.
+
+- Option B (component-by-component):
+	- Use `plan/migration_v19_to_v20.md` per-component checklist to iterate through components, applying fixes and running targeted tests, committing and pushing checkpoints as you progress.
+
+### Agent & Memory Changes
+- The new active scope and strict no-intervention policy have been appended to agent files in `.github/agents/`, and to repository memory entries under `/memories/`. The system is now configured to run `implement the migration plan` autonomously for v19→v20 and create the `v20-stable` checkpoint on success.

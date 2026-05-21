@@ -50,3 +50,43 @@ Files/Artifacts:
 - report/assessment_v19_to_v20.md
 - report/implementation_log.md
 - report/migration_report.md
+
+## Per-Component Checklist (from assessment inventory)
+For each component identified in `src/app/components`, perform the following tasks and mark them complete in the implementation log:
+
+- advanced-form-stepper
+   - Zone/change-detection fix applied (ChangeDetectorRef.markForCheck or NgZone.run):
+   - Compile & lint: `ng build` local pass:
+   - Targeted tests: pass:
+   - Visual validation: pass:
+   - Commit & push (checkpoint):
+
+- async-autocomplete-lab
+   - Zone/change-detection fix applied (ChangeDetectorRef.markForCheck or NgZone.run):
+   - Compile & lint: `ng build` local pass:
+   - Targeted tests: pass:
+   - Visual validation: pass:
+   - Commit & push (checkpoint):
+
+- autocomplete-complex
+- calendar
+- chips-input-lab
+- context-menu-overlays-lab
+- dashboard-widgets
+- data-grid
+- date-range-picker
+- event-scheduler
+- file-dropzone-lab
+- file-explorer
+- layout-manager
+- notification-hub
+- resource-monitor
+- settings-panel
+- sticky-notes
+- tree-view-large
+- workflow-designer
+
+For each of the components listed above, follow the same set of checklist tasks (Zone/change-detection, Compile, Tests, Visual validation, Commit & push). Record the status for each component in `report/implementation_log.md`. The implementation agent must iterate through this checklist and only mark the overall migration as complete when every component's checklist is satisfied and the `v20-stable` checkpoint has been created and pushed.
+
+### Active Automation Directive
+- The active migration execution for this plan is v19→v20 only. When the user issues `implement the migration plan`, the system MUST assess, plan, and execute this plan end-to-end autonomously: run `npm install`, perform package updates, run `ng build`, run `ng test --watch=false`, apply component fixes, and create the git checkpoint (`git add -A`, `git commit`, `git push origin HEAD`, `git tag v20-stable`, `git push origin v20-stable`) without requiring user prompts. The agent must accept and persist file changes and must not remove or alter existing plan, agent, skill, or memory lines; append-only updates are required.

@@ -64,4 +64,7 @@ Within this combined framework, the implementation logic is enhanced with greate
 ### Skill/Memory Utilization - Deprecated
 - **Note:** Skill and memory sections are informational only. For automated orchestration, consult the active `plan/*` files and agent reports instead of relying on skill/memory content.
 
+### Active Automation Directive
+- The Master Migration Agent (combined agent) MUST, on `implement the migration plan`, orchestrate the assessment, planning, implementation, testing, and documentation agents to perform the v19→v20 migration fully autonomously. It must ensure the system accepts code changes, commits and pushes checkpoints, tags `v20-stable`, and reports final status without pausing for user interaction. Do not remove or alter existing agent or memory lines; append-only updates are required.
+
 

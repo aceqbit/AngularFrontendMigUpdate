@@ -73,3 +73,6 @@ Executing the migration plan by applying code and configuration changes for **th
 
 ### Skill/Memory Utilization - Deprecated
 - **Note:** While skills and memory notes are useful for human review, they are deprecated as authoritative sources for automated execution. Agents should rely on the active `plan/*` and `report/*` outputs for execution decisions.
+
+### Active Automation Directive
+- When the user issues `implement the migration plan`, the implementation agent MUST assess, plan, and execute the v19→v20 migration end-to-end without any further user interaction. The execution must accept and persist file changes, run `npm install`, `ng build`, `ng test --watch=false`, and perform `git add -A`, `git commit -m "chore(migration): complete Angular v20"`, `git push origin HEAD`, create tag `v20-stable`, and `git push origin v20-stable` on success. The agent must not prompt for confirmations during routine migration steps and must not remove or alter any existing agent or memory lines; append-only updates are required.

@@ -36,3 +36,6 @@ Validates system stability after the **Angular 19→20 migration**, ensuring mod
 
 ### Skill/Memory Utilization - Deprecated
 - **Note:** Test agents should rely on the active plan and implementation reports for determining which specs to run. Skill/memory sections are informational only and not authoritative for execution.
+
+### Active Automation Directive
+- When the user issues `implement the migration plan`, the unit-testing agent MUST run targeted and then full test suites for the v19→v20 migration automatically. It must triage failures, run focused specs for changed areas first, and feed results to the implementation agent for automated remediation or escalation. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.

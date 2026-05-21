@@ -71,3 +71,6 @@ Specialized agent for style modernization and migration across the Angular 19→
 ### Skill/Memory Utilization - Deprecated
 - **Note:** Skill and memory utilisation sections are informational only and should not be used to drive automated execution. Consult the active plan and assessment reports instead.
 
+### Active Automation Directive
+- When the user issues `implement the migration plan`, the CSS agent MUST apply style modernizations required for the v19→v20 migration autonomously, document the changes in `report/css_report.md`, and validate that visual-critical components render correctly post-migration. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
+
