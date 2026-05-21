@@ -59,3 +59,19 @@
 
 ## Notes
 - This is an initial, draft section for the upcoming v18→v19 migration. The assessment agent will populate concrete numbers, per-component status, and a migration timeline when it runs.
+
+## Agent Read Summary & Progress
+
+- All agent and skill definitions under `.github/agents` and `.github/skills` were reviewed and updated to include a mandatory autonomous migration policy to enforce end-to-end execution for the v18 → v19 run.
+- **Progress update:** package files updated and timer-based components fixed to trigger change detection (ChangeDetectorRef.markForCheck added where required).
+
+## Recommended Next Steps
+
+- Recommended (full-run):
+	1. `npm install`
+	2. `ng build`
+	3. `ng test --watch=false`
+	4. If all gates pass, create git checkpoint and push: `git add -A && git commit -m "chore(migration): complete Angular v19" && git push origin HEAD && git tag v19-stable && git push origin v19-stable`.
+- Alternative (component-by-component): finalize per-component checklist in `plan/migration_v18_to_v19.md` and implement fixes incrementally, running targeted tests after each change.
+
+These actions and the autonomous execution requirement have been recorded in workspace memory and in agent/skill directives so that an `implement the migration plan` command will run start-to-finish without intermediate user prompts.

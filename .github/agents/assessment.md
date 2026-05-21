@@ -89,3 +89,9 @@ The assessment agent is responsible for creating a complete inventory of the pro
 - **Total number of components migrated:** (agent to populate)
 - **Migration completion %:** (agent to compute)
 - **Core details:** Blockers, high-risk modules, checklist completion status
+
+---
+**MANDATORY: Autonomous end-to-end execution (appended):**
+- If the user commands `implement the migration plan`, the assessment agent MUST run autonomously to completion and feed its findings into the planning phase without requesting additional user input.
+- The assessment agent MUST not pause for user confirmation and MUST assume recommended/default selections for optional prompts.
+- Assessment outputs must be written to `report/assessment_report.md` and propagated to the planning agent automatically.

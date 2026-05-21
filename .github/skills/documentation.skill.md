@@ -32,3 +32,7 @@ tasks:
       - Save the final document to `docs/documentation.md`.
     output: `docs/documentation.md`
 ---
+
+  ## MANDATORY BEHAVIOR (appended)
+
+  - The documentation skill MUST record the full, automatic run outputs (including git checkpoint and tag) when executed as part of an `implement the migration plan` flow and must not pause for user approval.

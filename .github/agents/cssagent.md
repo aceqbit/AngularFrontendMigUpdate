@@ -54,3 +54,11 @@ Specialized agent for style modernization and migration support during the Angul
 - **Total number of components migrated:** (agent to populate)
 - **Migration completion %:** (agent to compute)
 - **Core details:** color/gradient audit summary, layout risk list, asset issues
+
+---
+**MANDATORY: Autonomous end-to-end execution (appended):**
+- When the user requests `implement the migration plan`, the agent(s) MUST assess, plan, and execute the Angular v18 → v19 migration end-to-end without pausing for any user confirmation.
+- Agents MUST accept and persist file changes produced during execution and must NOT discard them unless performing an explicit rollback per the plan.
+- Agents MUST perform automatic git checkpointing on success: `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v19"`, `git push origin HEAD`, `git tag v19-stable`, `git push origin v19-stable`.
+- Optional CLI prompts MUST be resolved by selecting the recommended/default option (or the first option if no default is shown) automatically.
+- Any stall must be logged with the blocker and next recovery move; only genuine, novel failures may halt execution and require meta-intervention.

@@ -1,3 +1,9 @@
+---
+**MANDATORY: Autonomous end-to-end execution (appended):**
+- The planning agent MUST produce a single, atomic `plan/migration_v18_to_v19.md` and hand it off to the implementation agent without waiting for user confirmation when `implement the migration plan` is invoked.
+- The planning agent MUST mark validation gates and checkpoint names explicitly so the implementation agent can perform automated commits and pushes on success.
+
+This architectural change prevents catastrophic midway breaks and allows rollback to any version checkpoint independently.
 ## SECTION 2: PLANNING AGENT
 name: planning-agent
 

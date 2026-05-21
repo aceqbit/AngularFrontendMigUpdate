@@ -47,3 +47,7 @@ tasks:
       - Call out any build-warning-to-test-warning pattern so it can be cleaned up deliberately.
     output: `report/test_report.md`
 ---
+
+  ## MANDATORY BEHAVIOR (appended)
+
+  - The unit-testing skill MUST run targeted and full tests as dictated by the implementation flow without pausing for user input, and must report failures together with the next recovery action so automation can continue.

@@ -49,3 +49,7 @@ tasks:
       - Save the report to `report/assessment_report.md`.
     output: `report/assessment_report.md`
 ---
+
+  ## MANDATORY BEHAVIOR (appended)
+
+  - The assessment skill MUST run autonomously when called by `implement the migration plan`, produce the `report/assessment_report.md`, and not prompt the user for decisions during its analysis.

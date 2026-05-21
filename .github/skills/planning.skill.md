@@ -62,3 +62,7 @@ tasks:
         - `plan/migration_v18_to_v19.md`
         - `plan/migration_plan.md` (master index)
 ---
+
+  ## MANDATORY BEHAVIOR (appended)
+
+  - The planning skill MUST output a complete, atomic `plan/migration_v18_to_v19.md` and mark validation gates and checkpoint names so the implementation skill can run without waiting for user confirmation.

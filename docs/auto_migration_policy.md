@@ -7,3 +7,5 @@
 - Optional prompts must be resolved using recommended/default options automatically.
 - Agents must log actions and failures to `report/implementation_log.md` and summary to `report/migration_report.md`.
 - Location: This policy is stored in-repo at `docs/auto_migration_policy.md` (workspace-local), and should be referenced by agent artifacts instead of external memory paths.
+
+- **Active workspace scope update:** For this workspace the active autonomous migration scope is now Angular v18 -> v19 only until the next explicit plan is created. Agents and skills MUST enforce a fully autonomous start-to-finish run for the v18 → v19 migration, including automatic git checkpointing and push on success.

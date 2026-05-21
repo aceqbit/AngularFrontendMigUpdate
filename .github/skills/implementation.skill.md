@@ -61,3 +61,8 @@ tasks:
       - After a version jump completes, log the git status, commit, and push result before the next step starts.
     output: `report/implementation_log.md`
 ---
+
+  ## MANDATORY BEHAVIOR (appended)
+
+  - When invoked as part of an `implement the migration plan` command, this skill MUST operate fully autonomously: execute tasks, accept file changes, resolve optional prompts automatically, and perform git checkpointing and push on success.
+  - The skill MUST NOT pause for interactive user approvals during routine migration steps; only genuine, novel blockers may halt execution and trigger meta-intervention.

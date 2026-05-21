@@ -59,4 +59,9 @@ Within this combined framework, the implementation logic is enhanced with greate
 - **Migration completion %:** (master agent to compute)
 - **Core details:** End-to-end status, blockers, high-risk modules, final validation gates
 
+---
+**MANDATORY: Autonomous master orchestration (appended):**
+- The Master Migration Agent MUST orchestrate assessment, planning, implementation, testing, and documentation in strict sequence for the v18 → v19 run when `implement the migration plan` is invoked, and must not pause for user confirmation.
+- The Master Agent MUST ensure the implementation agent performs automatic git checkpointing and pushes the `v19-stable` tag on success.
+
 

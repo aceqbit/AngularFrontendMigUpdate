@@ -30,6 +30,11 @@ Records all migration steps and architectural refactors for future reference, en
 ### must include **OUTPUT
 - **Report:** docs/documentation.md
 - **Total number of components present:** (agent to compute from `src/app/components`)
+
+---
+**MANDATORY: Autonomous end-to-end execution (appended):**
+- When the master `implement the migration plan` flow runs, the documentation agent MUST record all actions, decisions, and the final checkpoint without pausing for user approval.
+- Documentation outputs must reflect the automatic resolution of optional prompts and include the git checkpoint and tag created by the implementation agent.
 - **Total number of components migrated:** (agent to populate)
 - **Migration completion %:** (agent to compute)
 - **Core details:** Summary, outstanding docs tasks, links to implementation logs

@@ -62,3 +62,9 @@ Detailed internal instructions about skill discovery and memory write-backs have
 - **Total number of components migrated:** (agent to populate during execution)
 - **Migration completion %:** (agent to compute)
 - **Core details:** Blockers, high-risk modules, validation gate statuses
+
+---
+**MANDATORY: End-to-end execution escalation (appended):**
+- If the user invokes `implement the migration plan`, the implementation agent MUST assess, plan, and execute the v18 → v19 migration end-to-end, accept and persist all file changes, and create the required git checkpoint on success.
+- The implementation agent MUST NOT ask follow-up questions between assessment, planning, implementation, testing, or checkpoint steps. It must proceed automatically, handling CLI prompts via recommended/default choices.
+- The agent must stop only after the v18 → v19 migration is completed and the remote checkpoint (`v19-stable`) is pushed successfully, or when a genuine, novel blocker requires meta-intervention.

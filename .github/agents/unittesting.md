@@ -31,3 +31,8 @@ Validates system stability after the Angular **18 → 19** jump, ensuring modern
 - **Total number of components migrated:** (agent to populate)
 - **Migration completion %:** (agent to compute)
 - **Core details:** failing suites, focused specs to run, triage status
+
+---
+**MANDATORY: Autonomous end-to-end execution (appended):**
+- The unit-testing agent MUST run targeted tests as directed by the implementation agent during an `implement the migration plan` run without pausing for user input.
+- When test failures occur, the agent MUST log the next recovery step and allow the implementation agent to act; it MUST NOT require manual approval to continue automated recovery attempts.
