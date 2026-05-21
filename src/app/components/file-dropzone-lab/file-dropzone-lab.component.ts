@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface DropFile {
@@ -20,6 +20,8 @@ export class FileDropzoneLabComponent implements OnDestroy {
   files: DropFile[] = [];
   dragActive = false;
   private timers = new Map<number, number>();
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -99,6 +101,8 @@ export class FileDropzoneLabComponent implements OnDestroy {
           status: nextProgress === 100 ? 'done' : 'uploading'
         };
       });
+      // ensure change detection after timer-driven file progress updates
+      this.cdr.markForCheck();
     }, 180);
 
     this.timers.set(id, timer);
