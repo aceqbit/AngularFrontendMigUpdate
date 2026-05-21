@@ -22,6 +22,7 @@ Note: In this workspace the "version rule" applies to the v16→v17 checkpoint. 
 - Keep the optional migration prompt on automatic default selection mode at all times.
 - Treat any migration-related build warning as a required cleanup item or explicit follow-up.
 - Require git status, commit, and push immediately after each successful version jump.
+- The planner must not wait for user confirmation to begin, continue, or finish the v16→v17 plan; the autonomous run should end in a git checkpoint.
    - Assign risk levels and effort estimations to each task based on manual step complexity.
   - Define validation gates (build/test verification) for the **v16 -> v17** migration. (Historical: multi-version gates are documented for larger migrations.)
 2. Historical: **v21 Final Transition Roadmap**
@@ -166,6 +167,7 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - **Successful Application Launch:** The application launches successfully using `ng serve` and is accessible in the browser.
 - **Automated Verification:** The entire verification process (build, test, lint) is automated and runs successfully in a CI/CD-like environment.
 - **Full Agent Automation:** The entire migration process is executed by an agent with full, autonomous control over the command line, requiring zero human intervention for prompts, decisions, or error handling.
+- **No Manual Gatekeeping:** The planning agent must not add steps that require the user to approve ordinary migration progress; `git status`, commit, and push are part of the automated success path.
 
 ### Migration Experience Learnings
 - **Windows Environment:** Be aware of potential file-locking issues with the `node_modules` directory. Plan for a "Clean Sweep" task using `rimraf` as a standard procedure between version jumps to prevent state corruption.
@@ -185,6 +187,12 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - **Core details:** task breakdown by priority, estimated effort, and validation gates.
 
 - **Spec requirement:** The planning agent will require that each component included in the plan has a corresponding `<component>.component.spec.ts` so tests can be executed during implementation and validation.
+
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:

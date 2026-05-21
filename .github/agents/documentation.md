@@ -22,6 +22,7 @@ This agent is now authoritative for Angular **v16 -> v17 only** in this workspac
     - The clean and concise commit message format used for all changes.
     - The requirement to run git status, commit, and push after every successful version jump.
     - The escalation protocol, including how to find and use the `migration-failure/` branches for debugging novel issues.
+  - The no-intervention rule: the migration must proceed start-to-finish without asking the user to approve routine steps.
 3. Summarize final v16→v17 state and any troubleshooting performed.
 
 ### Outputs
@@ -42,3 +43,10 @@ This agent is now authoritative for Angular **v16 -> v17 only** in this workspac
 - **Core details:** summary of architectural changes, list of modified files, and list of unresolved issues.
 
 - **Spec requirement:** The documentation agent will record presence/absence of `<component>.component.spec.ts` files; every component must include a spec file to support the unit-testing workflow.
+- **Automation Requirement:** Documentation must describe the fully autonomous finish path, including the required `git status`, commit, and push checkpoint after a successful migration.
+
+### User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
