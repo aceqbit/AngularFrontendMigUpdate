@@ -4,6 +4,7 @@ This repository uses per-version, atomic migration plans. The active, focused pl
 
 - Master index: this file (entry point for version plans)
 - Version-specific plan: [plan/migration_v16_to_v17.md](plan/migration_v16_to_v17.md)
+- Next planned version-specific plan: [plan/migration_v17_to_v18.md](plan/migration_v17_to_v18.md)
 
 Guiding principles:
 
