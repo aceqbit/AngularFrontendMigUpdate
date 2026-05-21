@@ -1,3 +1,55 @@
+## Implementation Commands (executable)
+
+The implementation agent will execute the following commands, in order, as the concrete steps for this migration. Run them from the repository root.
+
+1. Create migration branch:
+
+```
+git checkout -b migration/v19-to-20
+```
+
+2. Run Angular update schematic (uses npx to ensure CLI v20 is used):
+
+```
+npx @angular/cli@20 update @angular/core@20 @angular/cli@20 --force
+```
+
+3. Install updated dependencies:
+
+```
+npm install
+```
+
+4. Build the project (validation gate):
+
+```
+npx ng build --configuration=production
+```
+
+5. Run tests (non-watch mode):
+
+```
+npx ng test --watch=false
+```
+
+6. Commit and push checkpoint, create stable tag:
+
+```
+git add -A
+git commit -m "chore: migrate Angular v19→v20"
+git push origin HEAD
+git tag v20-stable
+git push origin v20-stable
+```
+
+If any step fails, the agent will record the failure in `report/implementation_log.md`, attempt automated remediation where safe, and if still failing, document the blocker and the next recovery move.
+## Per-Component Checklist (from assessment inventory)
+For each component identified in `src/app/components`, perform the following tasks and mark them complete in the implementation log:
+
+...
+
+### Active Automation Directive
+...
 ## Angular 19 → 20 Migration Plan (Concise)
 
 Scope: Atomic, single-version migration from Angular v19 to v20 for this repository.
