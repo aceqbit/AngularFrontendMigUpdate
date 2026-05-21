@@ -1,13 +1,16 @@
-# Combined Migration Agent (v18 → v19)
+# Combined Migration Agent (v19 → v20)
 
 This file contains the combined logic, responsibilities, and workflows of all migration sub-agents.
 
 
 ## SECTION 7: MASTER MIGRATION AGENT
-# Migration Agent (Angular 18 → 19)
+# Migration Agent (Angular 19 → 20)
 
 ### Purpose
-A master agent that orchestrates the entire migration process from Angular 18 to Angular 19 by coordinating the specialized sub-agent logics and explicitly referencing the provided migration manual for all steps.
+A master agent that orchestrates the Angular 19→20 migration by coordinating the specialized sub-agent logics and explicitly referencing the provided migration manual for all steps.
+
+### Active Scope
+- This combined agent is locked to the v19→v20 migration path.
 
 ### Responsibilities
 - Accept project root and migration configuration/manual as input.
@@ -16,17 +19,17 @@ A master agent that orchestrates the entire migration process from Angular 18 to
 - Ensure all migration steps, tests, and documentation are complete before finalizing.
 
 ### Core Workflow
-1. **Assessment**: Analyze the current project, detect deprecated patterns, and output a detailed migration checklist for the 18 → 19 jump.
-2. **Planning**: Generate a step-by-step, dependency-aware migration roadmap for the single version jump.
-3. **Implementation**: Apply code/config/architectural changes, update dependencies, and ensure builds succeed for the jump.
+1. **Assessment**: Analyze the current project, detect deprecated patterns, and output a detailed migration checklist for the active version step.
+2. **Planning**: Generate a step-by-step, dependency-aware migration roadmap.
+3. **Implementation**: Apply code/config/architectural changes, update dependencies, and ensure builds succeed for the active step.
 4. **Unit Testing**: Update and run tests after implementation.
 5. **Documentation**: Record all changes, new patterns, and lessons learned.
-6. **Validation**: After the migration step, validate build, test, and runtime status.
+6. **Validation**: After the step, validate build, test, and runtime status.
 7. **Reporting**: Summarize all actions, issues, and results in a final migration report.
 - **Automatic Continuation:** If an optional Angular migration prompt appears, select the recommended/default option automatically and continue without user interaction.
 - **Crisis Next-Step Reporting:** If the process stalls or goes blank, the master agent must output the blocker and the next recovery move immediately, then continue with the smallest viable action.
 - **Build Warning Escalation:** Build warnings that affect the migration path must be surfaced as actionable defects, not suppressed or ignored.
-- **Git Completion Reminder:** After the successful 18 → 19 jump, the master agent must require git status, commit, and push before the work is considered done.
+- **Git Completion Reminder:** After the successful v19→v20 jump, the master agent must require git status, commit, and push before any further work begins.
 
 ### Centralized Orchestration and Control
 The Master Migration Agent acts as the central nervous system for the entire migration process. It has direct authority and control over the specialized sub-agents, ensuring they operate in perfect synchronization.
@@ -34,12 +37,12 @@ The Master Migration Agent acts as the central nervous system for the entire mig
 - **Agent Invocation:** The Master Agent is solely responsible for invoking `assessment`, `planning`, `implementation`, `unittesting`, and `documentation` agents in a strict, predefined sequence.
 - **Data Flow Management:** It manages the flow of artifacts between agents. For example, it takes the `assessment_report.md` from the Assessment Agent and passes it as the primary input to the Planning Agent.
 - **Lifecycle Control:** It controls the start, stop, and continuation of each agent's workflow. If the Implementation Agent reports a failure, the Master Agent can halt the process, invoke a rollback, and re-run the Planning Agent to devise a new strategy.
-- **Git Completion Gate:** After the successful jump, the Master Agent must require a git status check, commit, and push before the migration is closed out.
+- **Git Completion Gate:** After the successful version jump, the Master Agent must require a git status check, commit, and push before finalizing the migration.
 
 ### Enhanced Implementation Agent Functionality
 Within this combined framework, the implementation logic is enhanced with greater power and responsibility, all under the direct supervision of the Master Agent:
 
-- **Dynamic Plan Execution:** The implementation logic dynamically consumes the `migration_v18_to_v19.md`. It executes each task precisely as ordered, with no deviation.
+- **Dynamic Plan Execution:** The implementation logic dynamically consumes the `migration_plan.md`. It executes each task precisely as ordered, with no deviation.
 - **Real-time Feedback Loop:** After every action (e.g., file modification, command execution), the implementation logic runs immediate, small-scale validations (like linting or a partial build). The results are fed back to the Master Agent in real-time.
 - **Automated Rollback Trigger:** If any step fails validation and cannot be resolved after a set number of retries (as defined in its "Absolute Rules"), it immediately signals the Master Agent to initiate a full rollback to the last known good state.
 - **Testing Triage:** When the unit test suite is too broad or a full run fails many modules at once, the Master Agent should direct the testing agent to run targeted specs for the changed area first, then expand outward only after the focused checks pass.
@@ -50,18 +53,15 @@ Within this combined framework, the implementation logic is enhanced with greate
 - **Planning Agent Management:** It feeds the assessment report to the `planning.md` logic and receives the `migration_plan.md`. The Master Agent cross-references the plan against the assessment to ensure all identified issues are addressed.
 - **Implementation Agent Management:** It oversees the `implementation.md` logic, feeding it one task at a time from the plan and awaiting a success or failure signal before providing the next task.
 - **Unit Testing Agent Management:** After each significant implementation step, the Master Agent invokes the `unittesting.md` logic to run the relevant test suites. It will not allow the implementation to proceed until all tests pass.
-	- **Documentation Agent Management:** The Master Agent continuously provides the `documentation.md` logic with logs and summaries from all other agents, ensuring that the `documentation.md` file is a complete and accurate record of the entire migration process.
+- **Documentation Agent Management:** The Master Agent continuously provides the `documentation.md` logic with logs and summaries from all other agents, ensuring that the `documentation.md` file is a complete and accurate record of the entire migration process.
 
-### must include **OUTPUT
-- **Report:** report/migration_report.md
-- **Total number of components present:** (master agent to compute)
-- **Total number of components migrated:** (master agent to aggregate)
-- **Migration completion %:** (master agent to compute)
-- **Core details:** End-to-end status, blockers, high-risk modules, final validation gates
+### OUTPUT
+- **Report**: `report/migration_report.md` — consolidated summary of the v19→v20 migration, agent outputs, and metrics.
+- **Total components present**: 19
+- **Total components migrated**: (populate during execution)
+- **Completion percentage**: (computed from downstream agent outputs)
 
----
-**MANDATORY: Autonomous master orchestration (appended):**
-- The Master Migration Agent MUST orchestrate assessment, planning, implementation, testing, and documentation in strict sequence for the v18 → v19 run when `implement the migration plan` is invoked, and must not pause for user confirmation.
-- The Master Agent MUST ensure the implementation agent performs automatic git checkpointing and pushes the `v19-stable` tag on success.
+### Skill/Memory Utilization - Deprecated
+- **Note:** Skill and memory sections are informational only. For automated orchestration, consult the active `plan/*` files and agent reports instead of relying on skill/memory content.
 
 
