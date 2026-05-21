@@ -1,3 +1,22 @@
+# Migration Documentation: Angular v20 → v21
+
+This document records the automated migration steps, decisions, and key artifacts for the v20→v21 migration.
+
+Key steps executed by the automated run:
+- Assessment: inventory, timer/async checks, component counts.
+- Planning: per-version atomic plan (`plan/migration_v20_to_v21.md`).
+- Implementation: dependency upgrades, `ng update` migrations, build & tests.
+- Validation: `ng build` and `ng test` results, targeted spec checks.
+- Finalization: git commit, push, and `v21-stable` tag creation.
+
+Artifacts:
+- `report/assessment_report.md`
+- `report/implementation_log.md`
+- `report/test_report.md`
+- `report/css_report.md`
+- `report/migration_report.md`
+
+Recorded-by: migration master agent
 # Migration Documentation: Angular 16 to 21
 
 This document records the steps and changes made during the migration of the Angular application from version 16 to 21.
