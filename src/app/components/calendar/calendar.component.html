@@ -8,49 +8,56 @@
       </div>
 
       <div class="calendar-grid">
-        <div *ngFor="let day of weekdays" class="weekday-header">{{ day }}</div>
+        @for (day of weekdays; track day) {
+          <div class="weekday-header">{{ day }}</div>
+        }
 
-        <div *ngFor="let day of days"
-             class="calendar-day"
-             [class.today]="day.isToday"
-             [class.not-current]="!day.isCurrentMonth"
-             [class.selected]="selectedDate.toDateString() === day.date.toDateString()"
-             (click)="selectDate(day.date)"
-             role="button"
-             tabindex="0">
-          <div class="day-top">
-            <span class="day-number">{{ day.date | date:'d' }}</span>
-            <span class="lunar-phase" [title]="day.lunarPhase">{{ day.lunarPhase }}</span>
-          </div>
-
-          <div class="day-content">
-            <div *ngIf="day.holiday" class="holiday-badge">{{ day.holiday }}</div>
-
-            <div class="weather-info" *ngIf="day.weather">
-              <span>{{ day.weather.icon }}</span>
-              <span>{{ day.weather.temp }}°C</span>
+        @for (day of days; track day) {
+          <div
+            class="calendar-day"
+            [class.today]="day.isToday"
+            [class.not-current]="!day.isCurrentMonth"
+            [class.selected]="selectedDate.toDateString() === day.date.toDateString()"
+            (click)="selectDate(day.date)"
+            role="button"
+            tabindex="0">
+            <div class="day-top">
+              <span class="day-number">{{ day.date | date:'d' }}</span>
+              <span class="lunar-phase" [title]="day.lunarPhase">{{ day.lunarPhase }}</span>
             </div>
-
-            <div class="events-container">
-              <button *ngFor="let event of day.events"
-                      type="button"
-                      class="event-pill"
-                      [style.border-left-color]="event.priority === 'high' ? '#d93025' : event.priority === 'medium' ? '#fbbc04' : '#34a853'"
-                      (click)="startEdit(event)">
-                {{ event.title }}
-              </button>
+            <div class="day-content">
+              @if (day.holiday) {
+                <div class="holiday-badge">{{ day.holiday }}</div>
+              }
+              @if (day.weather) {
+                <div class="weather-info">
+                  <span>{{ day.weather.icon }}</span>
+                  <span>{{ day.weather.temp }}°C</span>
+                </div>
+              }
+              <div class="events-container">
+                @for (event of day.events; track event) {
+                  <button
+                    type="button"
+                    class="event-pill"
+                    [style.border-left-color]="event.priority === 'high' ? '#d93025' : event.priority === 'medium' ? '#fbbc04' : '#34a853'"
+                    (click)="startEdit(event)">
+                    {{ event.title }}
+                  </button>
+                }
+              </div>
+              <div class="metrics-overlay">
+                <div class="metric-bar" [style.width.%]="day.metrics?.cpu" [style.background]="'#ff5252'"></div>
+                <div class="metric-bar" [style.width.%]="day.metrics?.memory" [style.background]="'#448aff'"></div>
+              </div>
             </div>
-
-            <div class="metrics-overlay">
-              <div class="metric-bar" [style.width.%]="day.metrics?.cpu" [style.background]="'#ff5252'"></div>
-              <div class="metric-bar" [style.width.%]="day.metrics?.memory" [style.background]="'#448aff'"></div>
+            <div class="day-meta-hidden">
+              @for (i of [1,2,3,4,5]; track i) {
+                <div class="dummy-data-point"></div>
+              }
             </div>
           </div>
-
-          <div class="day-meta-hidden">
-            <div *ngFor="let i of [1,2,3,4,5]" class="dummy-data-point"></div>
-          </div>
-        </div>
+        }
       </div>
     </div>
 
@@ -89,16 +96,18 @@
       </div>
 
       <div class="day-event-list">
-        <div *ngFor="let event of getSelectedDayEvents()" class="day-event-card">
-          <div>
-            <strong>{{ event.title }}</strong>
-            <p>{{ event.details }}</p>
+        @for (event of getSelectedDayEvents(); track event) {
+          <div class="day-event-card">
+            <div>
+              <strong>{{ event.title }}</strong>
+              <p>{{ event.details }}</p>
+            </div>
+            <div class="event-actions">
+              <button type="button" (click)="startEdit(event)">Edit</button>
+              <button type="button" (click)="removeEvent(event.id)">Delete</button>
+            </div>
           </div>
-          <div class="event-actions">
-            <button type="button" (click)="startEdit(event)">Edit</button>
-            <button type="button" (click)="removeEvent(event.id)">Delete</button>
-          </div>
-        </div>
+        }
       </div>
     </aside>
   </div>

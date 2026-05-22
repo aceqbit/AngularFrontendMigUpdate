@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 interface DropFile {
   id: number;
@@ -11,7 +11,7 @@ interface DropFile {
 
 @Component({
     selector: 'app-file-dropzone-lab',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './file-dropzone-lab.component.html',
     styleUrls: ['./file-dropzone-lab.component.css']
 })

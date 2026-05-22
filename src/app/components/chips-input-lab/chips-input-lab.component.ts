@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-chips-input-lab',
-    imports: [CommonModule, FormsModule],
+    imports: [FormsModule],
     templateUrl: './chips-input-lab.component.html',
     styleUrls: ['./chips-input-lab.component.css']
 })
