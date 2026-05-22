@@ -37,6 +37,12 @@ The migration was performed incrementally, one major version at a time, from Ang
 - The `main.ts` file was updated to use the new bootstrap API.
 - The build was successful after the update.
 
+### Migration Completion (v21)
+- Completion date: 2026-05-22
+- Branch: `migration/v20-to-v21` (pushed to origin)
+- Tag: `v21-stable` (pushed to origin)
+
+
 ## Lessons Learned
 - The incremental migration approach was effective in isolating issues at each step.
 - The `ng update` command is a powerful tool that automates many of the migration tasks.
