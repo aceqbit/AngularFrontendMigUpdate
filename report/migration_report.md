@@ -21,7 +21,7 @@ Date: 2026-05-22
 ## Summary
 - Build: `npx ng build --configuration production` — success with informational warnings.
 - Tests: `npx ng test -- --watch=false` — success (21/21 specs passed).
-- Git: branch `migration/v20-to-v21` pushed; tag `v21-stable` created and pushed.
+ - Git: branch `migration/v20-to-v21` pushed; tag `v21-stable` created and pushed (tag points to commit `65a6dfc`).
 
 ## Next Steps
 - Optionally address CSS budgets and unused declaration warnings in a follow-up optimization pass.

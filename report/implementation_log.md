@@ -62,10 +62,11 @@ Start time: 2026-05-22
 - `ng test --watch=false`: success — 21/21 specs passed.
 
 ## Git State (excerpt)
-- HEAD: 4443cf7 (chore(migration): complete Angular v21)
+- Migration commit recorded: 4443cf7 (chore(migration): complete Angular v21)
+- Final HEAD: 65a6dfc (docs: record Angular v21 completion)
 - Current branch: migration/v20-to-v21
 - Remote branch: migration/v20-to-v21 (pushed)
-- Tag: v21-stable -> 4443cf7 (pushed)
+- Tag: v21-stable -> 65a6dfc (pushed)
 
 ## Notes & Next Steps
 - CSS budget warnings reported for a handful of components; address in a follow-up optimization pass if desired.
