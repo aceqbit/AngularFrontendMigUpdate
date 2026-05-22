@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LayoutManagerComponent } from './components/layout-manager/layout-manager.component';
 import { WorkflowDesignerComponent } from './components/workflow-designer/workflow-designer.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
@@ -20,24 +20,23 @@ import { ContextMenuOverlaysLabComponent } from './components/context-menu-overl
 @Component({
     selector: 'app-root',
     imports: [
-        CommonModule,
-        LayoutManagerComponent,
-        DashboardWidgetsComponent,
-        WorkflowDesignerComponent,
-        CalendarComponent,
-        DateRangePickerComponent,
-        EventSchedulerComponent,
-        AutoCompleteComplexComponent,
-        AdvancedFormStepperComponent,
-        TreeViewLargeComponent,
-        StickyNotesComponent,
-        NotificationHubComponent,
-        SettingsPanelComponent,
-        AsyncAutocompleteLabComponent,
-        ChipsInputLabComponent,
-        FileDropzoneLabComponent,
-        ContextMenuOverlaysLabComponent,
-    ],
+    LayoutManagerComponent,
+    DashboardWidgetsComponent,
+    WorkflowDesignerComponent,
+    CalendarComponent,
+    DateRangePickerComponent,
+    EventSchedulerComponent,
+    AutoCompleteComplexComponent,
+    AdvancedFormStepperComponent,
+    TreeViewLargeComponent,
+    StickyNotesComponent,
+    NotificationHubComponent,
+    SettingsPanelComponent,
+    AsyncAutocompleteLabComponent,
+    ChipsInputLabComponent,
+    FileDropzoneLabComponent,
+    ContextMenuOverlaysLabComponent
+],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })

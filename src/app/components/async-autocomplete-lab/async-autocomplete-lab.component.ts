@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-async-autocomplete-lab',
-    imports: [CommonModule, FormsModule],
+    imports: [FormsModule],
     templateUrl: './async-autocomplete-lab.component.html',
     styleUrls: ['./async-autocomplete-lab.component.css']
 })

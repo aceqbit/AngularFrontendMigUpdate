@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 interface MenuCard {
   id: string;
@@ -11,7 +11,7 @@ interface MenuCard {
 
 @Component({
     selector: 'app-context-menu-overlays-lab',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './context-menu-overlays-lab.component.html',
     styleUrls: ['./context-menu-overlays-lab.component.css']
 })

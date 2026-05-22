@@ -5,13 +5,15 @@
       <span>H-ANGULAR V16</span>
     </div>
     <nav>
-      <div *ngFor="let s of sections" 
-           class="nav-item" 
-           [class.active]="activeSection === s.id"
-           (click)="setSection(s.id)">
-        <span class="icon">{{ s.icon }}</span>
-        <span class="label">{{ s.label }}</span>
-      </div>
+      @for (s of sections; track s) {
+        <div
+          class="nav-item"
+          [class.active]="activeSection === s.id"
+          (click)="setSection(s.id)">
+          <span class="icon">{{ s.icon }}</span>
+          <span class="label">{{ s.label }}</span>
+        </div>
+      }
     </nav>
     <div class="sidebar-footer">
     </div>

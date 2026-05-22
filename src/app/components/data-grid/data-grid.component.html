@@ -29,50 +29,50 @@
     </div>
 
     <div class="grid-body">
-      <div *ngFor="let group of getGroupKeys()" class="grid-group">
-        <div class="group-header">
-          <span class="group-toggle">▼</span>
-          {{ group | uppercase }} ({{ getGroupedRows()[group].length }})
+      @for (group of getGroupKeys(); track group) {
+        <div class="grid-group">
+          <div class="group-header">
+            <span class="group-toggle">▼</span>
+            {{ group | uppercase }} ({{ getGroupedRows()[group].length }})
+          </div>
+          @for (row of getGroupedRows()[group]; track row) {
+            <div
+              class="grid-row"
+              [class.selected]="selectedRows.has(row.id)">
+              <div class="col-check">
+                <input type="checkbox" [checked]="selectedRows.has(row.id)" (change)="toggleSelection(row.id)">
+              </div>
+              <div class="col-user">
+                <div class="avatar" [style.background-color]="row.efficiency > 80 ? '#34a853' : '#fbbc04'">
+                  {{ getInitials(row.name) }}
+                </div>
+                <div class="user-info">
+                  <span class="name">{{ row.name }}</span>
+                  <span class="email">{{ row.email }}</span>
+                </div>
+              </div>
+              <div class="col-role">{{ row.role }}</div>
+              <div class="col-dept">{{ row.department }}</div>
+              <div class="col-status">
+                <span class="status-dot" [class]="row.status"></span>
+                {{ row.status | titlecase }}
+              </div>
+              <div class="col-efficiency">
+                <div class="progress-container">
+                  <div class="progress-bar" [style.width.%]="row.efficiency"></div>
+                </div>
+                <span>{{ row.efficiency }}%</span>
+              </div>
+              <div class="col-actions">
+                <!-- Hidden complex logic -->
+                @for (i of [1,2]; track i) {
+                  <div class="row-meta-dump"></div>
+                }
+              </div>
+            </div>
+          }
         </div>
-
-        <div *ngFor="let row of getGroupedRows()[group]" 
-             class="grid-row" 
-             [class.selected]="selectedRows.has(row.id)">
-          
-          <div class="col-check">
-            <input type="checkbox" [checked]="selectedRows.has(row.id)" (change)="toggleSelection(row.id)">
-          </div>
-
-          <div class="col-user">
-            <div class="avatar" [style.background-color]="row.efficiency > 80 ? '#34a853' : '#fbbc04'">
-              {{ getInitials(row.name) }}
-            </div>
-            <div class="user-info">
-              <span class="name">{{ row.name }}</span>
-              <span class="email">{{ row.email }}</span>
-            </div>
-          </div>
-
-          <div class="col-role">{{ row.role }}</div>
-          <div class="col-dept">{{ row.department }}</div>
-          <div class="col-status">
-            <span class="status-dot" [class]="row.status"></span>
-            {{ row.status | titlecase }}
-          </div>
-
-          <div class="col-efficiency">
-            <div class="progress-container">
-              <div class="progress-bar" [style.width.%]="row.efficiency"></div>
-            </div>
-            <span>{{ row.efficiency }}%</span>
-          </div>
-
-          <div class="col-actions">
-            <!-- Hidden complex logic -->
-            <div class="row-meta-dump" *ngFor="let i of [1,2]"></div>
-          </div>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </div>

@@ -6,29 +6,33 @@
   </div>
 
   <div class="card-grid">
-    <article
-      *ngFor="let card of cards"
-      class="menu-card"
-      [style.--accent]="card.accent"
-      (contextmenu)="openMenu($event, card)"
-    >
-      <div class="card-kicker">{{ card.id }}</div>
-      <h4>{{ card.title }}</h4>
-      <p>{{ card.description }}</p>
-    </article>
+    @for (card of cards; track card) {
+      <article
+        class="menu-card"
+        [style.--accent]="card.accent"
+        (contextmenu)="openMenu($event, card)"
+        >
+        <div class="card-kicker">{{ card.id }}</div>
+        <h4>{{ card.title }}</h4>
+        <p>{{ card.description }}</p>
+      </article>
+    }
   </div>
 
   <p class="status-text">{{ lastAction }}</p>
 
-  <div
-    class="context-menu"
-    *ngIf="menu.visible"
-    [style.left.px]="menu.x"
-    [style.top.px]="menu.y"
-    (click)="$event.stopPropagation()"
-  >
-    <button type="button" *ngFor="let action of actions" (click)="performAction(action)">
-      {{ action }}
-    </button>
-  </div>
+  @if (menu.visible) {
+    <div
+      class="context-menu"
+      [style.left.px]="menu.x"
+      [style.top.px]="menu.y"
+      (click)="$event.stopPropagation()"
+      >
+      @for (action of actions; track action) {
+        <button type="button" (click)="performAction(action)">
+          {{ action }}
+        </button>
+      }
+    </div>
+  }
 </section>
